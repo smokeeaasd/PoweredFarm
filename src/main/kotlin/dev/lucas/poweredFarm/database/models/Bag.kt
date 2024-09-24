@@ -14,8 +14,8 @@ data class Bag(val id: Int?, val user: User, val crop: Crop, val amount: Int, va
                 Bags.select(Bags.columns)
                     .where { Bags.id eq id }
                     .mapNotNull {
-                        val user = User.find(it[Bags.user].value) // Recupera o objeto User
-                        val crop = Crop.find(it[Bags.crop].value) // Recupera o objeto Crop
+                        val user = User.find(it[Bags.user].value)
+                        val crop = Crop.find(it[Bags.crop].value)
                         user?.let { user ->
                             crop?.let { crop ->
                                 Bag(

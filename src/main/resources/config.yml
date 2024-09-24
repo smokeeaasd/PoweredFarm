@@ -1,0 +1,12 @@
+defaults:
+  bags:
+    limit: 100
+    amount: 0
+
+crops:
+  wheat: true
+  carrot: true
+  potato: true
+  nether_wart: false
+
+locale: "en_US"

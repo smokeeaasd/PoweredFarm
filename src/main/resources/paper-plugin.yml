@@ -1,0 +1,4 @@
+name: PoweredFarm
+version: '1.0-SNAPSHOT'
+main: dev.lucas.poweredFarm.Main
+api-version: '1.20'

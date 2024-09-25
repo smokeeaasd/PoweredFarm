@@ -22,6 +22,21 @@ data class User(val id: Int?, val uuid: String, val experience: Int) : IModel<Us
             }
         }
 
+        fun find(uuid: String): User? {
+            return transaction {
+                Users.select(Users.columns)
+                    .where { Users.uuid eq uuid }
+                    .mapNotNull {
+                        User(
+                            id = it[Users.id].value,
+                            uuid = it[Users.uuid],
+                            experience = it[Users.experience]
+                        )
+                    }
+                    .singleOrNull()
+            }
+        }
+
         fun create(uuid: String, experience: Int): User {
             return transaction {
                 val insertedId = Users.insertAndGetId {

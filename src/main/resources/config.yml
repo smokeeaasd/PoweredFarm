@@ -1,42 +1,34 @@
 crops:
-  - type: 'nether_wart'
-    label: '&cNether Wart'
-    enabled: true
+  - type: "nether_wart"
+    label: "&cNether Wart"
     limit: 50
 
-  - type: 'beetroot'
-    label: '&dBeetroot'
-    enabled: true
+  - type: "beetroot"
+    label: "&dBeetroot"
     limit: 100
 
-  - type: 'carrot'
-    label: '&6Carrot'
-    enabled: true
+  - type: "carrot"
+    label: "&6Carrot"
     limit: 90
 
-  - type: 'melon_stem'
-    label: '&dMelon'
-    enabled: true
+  - type: "melon_stem"
+    label: "&dMelon"
     limit: 100
 
-  - type: 'potato'
-    label: '&ePotato'
-    enabled: true
+  - type: "potato"
+    label: "&ePotato"
     limit: 90
 
-  - type: 'pumpkin_stem'
-    label: '&6Pumpkin'
-    enabled: true
+  - type: "pumpkin_stem"
+    label: "&6Pumpkin"
     limit: 80
 
-  - type: 'sweet_berry_bush'
-    label: '&cSweet Berry'
-    enabled: true
+  - type: "sweet_berry_bush"
+    label: "&cSweet Berry"
     limit: 150
 
-  - type: 'wheat'
-    label: '&eWheat'
-    enabled: true
+  - type: "wheat"
+    label: "&eWheat"
     limit: 125
 
 locale: "en_US"

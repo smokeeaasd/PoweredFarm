@@ -1,22 +1,31 @@
 package dev.lucas.poweredFarm.config
 
-import dev.lucas.poweredFarm.config.dto.CropDTO
+import dev.lucas.poweredFarm.database.dto.CropDTO
 import dev.lucas.poweredFarm.database.DatabaseFactory
+import dev.lucas.poweredFarm.database.dto.messages.CropMessageDTO
 import dev.lucas.poweredFarm.database.models.Crop
-import dev.lucas.poweredFarm.database.tables.Crops
+import net.kyori.adventure.text.Component
+import org.bukkit.Bukkit
 import org.bukkit.configuration.file.YamlConfiguration
 import java.io.File
 import java.io.FileOutputStream
 import java.util.logging.Logger
+import kotlin.reflect.typeOf
 
 class Configuration(private val dataFolder: File, private val logger: Logger) {
+
+    private val configFile = File(dataFolder, "config.yml")
+
     companion object {
-        var cropList = mutableListOf<CropDTO>()
-        var locale: String = "en_US";
+        var crops = mutableListOf<CropDTO>()
+        var locale: String = "en_US"
+        var cropMessages = mutableListOf<CropMessageDTO>()
     }
+
     init {
-        if (!dataFolder.exists())
+        if (!dataFolder.exists()) {
             dataFolder.mkdirs()
+        }
     }
 
     fun initialize() {
@@ -24,6 +33,31 @@ class Configuration(private val dataFolder: File, private val logger: Logger) {
         createMessagesDirectory()
         createMessageFiles()
         initializeDatabase()
+        saveLocale()
+        saveMessages()
+    }
+
+    private fun saveMessages() {
+        val cropMessagesSection = getMessageConfig(locale).getList("crops") ?: return
+
+        cropMessages = cropMessagesSection.mapNotNull { cropMessageData ->
+            if (cropMessageData is Map<*, *>) {
+                logger.info(cropMessageData["title"]!!::class.toString())
+                logger.info(cropMessageData["type"]!!::class.toString())
+                logger.info(cropMessageData["lore"]!!::class.toString())
+                logger.info(cropMessageData["full"]!!::class.toString())
+                val type = cropMessageData["type"] as? String ?: return@mapNotNull null
+                val title = cropMessageData["title"] as? String ?: return@mapNotNull null
+                val loreLines = cropMessageData["lore"] as? List<*> ?: return@mapNotNull null
+                val full = cropMessageData["full"] as? String ?: return@mapNotNull null
+
+                val lore = Component.text()
+                for (line in loreLines) {
+                    lore.append(Component.text(line as String))
+                }
+                CropMessageDTO(type, Component.text(title), lore.build(), Component.text(full))
+            } else null
+        }.toMutableList()
     }
 
     private fun initializeDatabase() {
@@ -33,26 +67,26 @@ class Configuration(private val dataFolder: File, private val logger: Logger) {
     }
 
     private fun saveLocale() {
-        locale = getConfig().getString("locale") ?: "en_US";
+        locale = getConfig().getString("locale") ?: "en_US"
     }
 
     private fun saveCrops() {
-        val cropsSection = getConfig().getMapList("crops")
+        Crop.clear()
+        val cropsSection = getConfig().getList("crops") ?: return
 
-        cropsSection.forEach { cropData ->
+        crops = cropsSection.mapNotNull { cropData ->
             if (cropData is Map<*, *>) {
-                val type = cropData["type"] as? String ?: return@forEach
-                val label = cropData["label"] as? String ?: return@forEach
-                val enabled = cropData["enabled"] as? Boolean ?: true
+                val type = cropData["type"] as? String ?: return@mapNotNull null
+                val label = cropData["label"] as? String ?: return@mapNotNull null
                 val limit = cropData["limit"] as? Int ?: 0
-                cropList.add(CropDTO(type, label, enabled, limit))
+
                 Crop.create(type)
-            }
-        }
+                CropDTO(type, label, limit)
+            } else null
+        }.toMutableList()
     }
 
     private fun createConfigFile() {
-        val configFile = File(dataFolder, "config.yml")
         if (configFile.exists()) {
             logger.info("File 'config.yml' already exists: ${configFile.path}")
             return
@@ -76,15 +110,14 @@ class Configuration(private val dataFolder: File, private val logger: Logger) {
     private fun createMessageFiles() {
         val messageFiles = listOf("pt_BR.yml", "en_US.yml")
 
-        for (fileName in messageFiles) {
+        messageFiles.forEach { fileName ->
             val file = File(dataFolder, "messages/$fileName")
-            if (file.exists()) {
+            if (!file.exists()) {
+                copyResource("messages/$fileName", file)
+                logger.info("Created '$fileName'.")
+            } else {
                 logger.info("File '$fileName' already exists: ${file.path}")
-                continue
             }
-
-            copyResource("messages/$fileName", file)
-            logger.info("Created '$fileName'.")
         }
     }
 
@@ -96,14 +129,13 @@ class Configuration(private val dataFolder: File, private val logger: Logger) {
         } ?: logger.warning("Resource not found: $resourcePath")
     }
 
-    fun getConfig(): YamlConfiguration {
-        val configFile = File(dataFolder, "config.yml")
+    private fun getConfig(): YamlConfiguration {
         return YamlConfiguration.loadConfiguration(configFile)
     }
 
-    fun getMessageConfig(locale: String): YamlConfiguration {
+    private fun getMessageConfig(locale: String): YamlConfiguration {
         val messagesDir = File(dataFolder, "messages")
-        val messageConfigFile = File(messagesDir, locale.plus(".yml"))
-        return YamlConfiguration.loadConfiguration(messageConfigFile)
+        val localeFile = File(messagesDir, locale.plus(".yml"))
+        return YamlConfiguration.loadConfiguration(localeFile)
     }
 }

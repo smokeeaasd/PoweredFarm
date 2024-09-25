@@ -1,11 +1,9 @@
 package dev.lucas.poweredFarm.database.models
 
 import dev.lucas.poweredFarm.database.tables.Crops
+import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
-import org.jetbrains.exposed.sql.deleteWhere
-import org.jetbrains.exposed.sql.insertAndGetId
 import org.jetbrains.exposed.sql.transactions.transaction
-import org.jetbrains.exposed.sql.update
 
 data class Crop(val id: Int?, val type: String) : IModel<Crop> {
     companion object {
@@ -23,6 +21,18 @@ data class Crop(val id: Int?, val type: String) : IModel<Crop> {
             }
         }
 
+        fun all(): List<Crop> {
+            return transaction {
+                Crops.select(Crops.columns)
+                    .mapNotNull {
+                        Crop(
+                            id = it[Crops.id].value,
+                            type = it[Crops.type]
+                        )
+                    }
+            }
+        }
+
         fun create(type: String): Crop {
             return transaction {
                 val insertedId = Crops.insertAndGetId {
@@ -30,6 +40,12 @@ data class Crop(val id: Int?, val type: String) : IModel<Crop> {
                 }
 
                 Crop(insertedId.value, type)
+            }
+        }
+
+        fun clear() {
+            return transaction {
+                Crops.deleteAll()
             }
         }
     }

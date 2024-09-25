@@ -1,12 +1,42 @@
-defaults:
-  bags:
-    limit: 100
-    amount: 0
-
 crops:
-  wheat: true
-  carrot: true
-  potato: true
-  nether_wart: false
+  - type: 'nether_wart'
+    label: '&cNether Wart'
+    enabled: true
+    limit: 50
+
+  - type: 'beetroot'
+    label: '&dBeetroot'
+    enabled: true
+    limit: 100
+
+  - type: 'carrot'
+    label: '&6Carrot'
+    enabled: true
+    limit: 90
+
+  - type: 'melon_stem'
+    label: '&dMelon'
+    enabled: true
+    limit: 100
+
+  - type: 'potato'
+    label: '&ePotato'
+    enabled: true
+    limit: 90
+
+  - type: 'pumpkin_stem'
+    label: '&6Pumpkin'
+    enabled: true
+    limit: 80
+
+  - type: 'sweet_berry_bush'
+    label: '&cSweet Berry'
+    enabled: true
+    limit: 150
+
+  - type: 'wheat'
+    label: '&eWheat'
+    enabled: true
+    limit: 125
 
 locale: "en_US"

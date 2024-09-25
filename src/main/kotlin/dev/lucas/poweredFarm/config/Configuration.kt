@@ -1,13 +1,19 @@
 package dev.lucas.poweredFarm.config
 
+import dev.lucas.poweredFarm.config.dto.CropDTO
 import dev.lucas.poweredFarm.database.DatabaseFactory
+import dev.lucas.poweredFarm.database.models.Crop
+import dev.lucas.poweredFarm.database.tables.Crops
 import org.bukkit.configuration.file.YamlConfiguration
 import java.io.File
 import java.io.FileOutputStream
 import java.util.logging.Logger
 
 class Configuration(private val dataFolder: File, private val logger: Logger) {
-
+    companion object {
+        var cropList = mutableListOf<CropDTO>()
+        var locale: String = "en_US";
+    }
     init {
         if (!dataFolder.exists())
             dataFolder.mkdirs()
@@ -17,7 +23,32 @@ class Configuration(private val dataFolder: File, private val logger: Logger) {
         createConfigFile()
         createMessagesDirectory()
         createMessageFiles()
+        initializeDatabase()
+    }
+
+    private fun initializeDatabase() {
         DatabaseFactory.init()
+        saveCrops()
+        saveLocale()
+    }
+
+    private fun saveLocale() {
+        locale = getConfig().getString("locale") ?: "en_US";
+    }
+
+    private fun saveCrops() {
+        val cropsSection = getConfig().getMapList("crops")
+
+        cropsSection.forEach { cropData ->
+            if (cropData is Map<*, *>) {
+                val type = cropData["type"] as? String ?: return@forEach
+                val label = cropData["label"] as? String ?: return@forEach
+                val enabled = cropData["enabled"] as? Boolean ?: true
+                val limit = cropData["limit"] as? Int ?: 0
+                cropList.add(CropDTO(type, label, enabled, limit))
+                Crop.create(type)
+            }
+        }
     }
 
     private fun createConfigFile() {

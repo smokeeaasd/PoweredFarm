@@ -1,0 +1,56 @@
+crops:
+  - type: 'nether_wart'
+    title: '&cNether Wart'
+    lore:
+      lines:
+        - '&7Amount: (%poweredfarm_netherwart_amount%/%poweredfarm_netherwart_limit%)'
+      full: '&cYour storage is full'
+
+  - type: 'beetroot'
+    title: '&dBeetroot'
+    lore:
+      lines:
+        - '&7Amount: (%poweredfarm_beetroot_amount%/%poweredfarm_beetroot_limit%)'
+      full: '&cYour storage is full'
+
+  - type: 'carrot'
+    title: '&6Carrot'
+    lore:
+      lines:
+        - '&7Amount: (%poweredfarm_carrot_amount%/%poweredfarm_carrot_limit%)'
+      full: '&cYour storage is full'
+
+  - type: 'melon_stem'
+    title: '&dMelon'
+    lore:
+      lines:
+        - '&7Amount: (%poweredfarm_melon_amount%/%poweredfarm_melon_limit%)'
+      full: '&cYour storage is full'
+
+  - type: 'potato'
+    title: '&ePotato'
+    lore:
+      lines:
+        - '&7Amount: (%poweredfarm_potato_amount%/%poweredfarm_potato_limit%)'
+      full: '&cYour storage is full'
+
+  - type: 'pumpkin_stem'
+    title: '&6Pumpkin'
+    lore:
+      lines:
+        - '&7Amount: (%poweredfarm_pumpkin_amount%/%poweredfarm_pumpkin_limit%)'
+      full: '&cYour storage is full'
+
+  - type: 'sweet_berry_bush'
+    title: '&cSweet Berry'
+    lore:
+      lines:
+        - '&7Amount: (%poweredfarm_sweetberry_amount%/%poweredfarm_sweetberry_limit%)'
+      full: '&cYour storage is full'
+
+  - type: 'wheat'
+    title: '&eWheat'
+    lore:
+      lines:
+        - '&7Amount: (%poweredfarm_wheat_amount%/%poweredfarm_wheat_limit%)'
+      full: '&cYour storage is full'

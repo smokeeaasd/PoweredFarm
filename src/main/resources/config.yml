@@ -1,34 +1,26 @@
 crops:
   - type: "nether_wart"
-    label: "&cNether Wart"
     limit: 50
 
   - type: "beetroot"
-    label: "&dBeetroot"
     limit: 100
 
   - type: "carrot"
-    label: "&6Carrot"
     limit: 90
 
   - type: "melon_stem"
-    label: "&dMelon"
     limit: 100
 
   - type: "potato"
-    label: "&ePotato"
     limit: 90
 
   - type: "pumpkin_stem"
-    label: "&6Pumpkin"
     limit: 80
 
   - type: "sweet_berry_bush"
-    label: "&cSweet Berry"
     limit: 150
 
   - type: "wheat"
-    label: "&eWheat"
     limit: 125
 
 locale: "en_US"

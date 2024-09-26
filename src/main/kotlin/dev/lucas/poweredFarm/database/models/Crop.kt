@@ -45,8 +45,8 @@ data class Crop(val id: Int?, val type: String, val limit: Int) : IModel<Crop> {
 
     override fun save() {
         Crops.update({ Crops.id eq id }) {
-            it[Crops.type] = type
-            it[Crops.limit] = limit
+            it[type] = type
+            it[limit] = limit
         }
     }
 

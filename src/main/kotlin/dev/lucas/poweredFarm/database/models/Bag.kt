@@ -44,6 +44,7 @@ data class Bag(val id: Int?, val user: User, val crop: Crop, val amount: Int) : 
             }
         }
     }
+
     override fun save() {
         Bags.update({ Bags.id eq id }) {
             it[amount] = this@Bag.amount

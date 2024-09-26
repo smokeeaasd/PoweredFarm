@@ -4,7 +4,6 @@ import dev.lucas.poweredFarm.Main
 import dev.lucas.poweredFarm.database.DatabaseInitializer
 import dev.lucas.poweredFarm.database.models.Crop
 import net.kyori.adventure.text.Component
-import org.bukkit.Bukkit
 import org.bukkit.configuration.file.YamlConfiguration
 import java.io.File
 import java.util.logging.Logger
@@ -29,7 +28,7 @@ class Configuration(private val dataFolder: File, private val logger: Logger, pr
         if (!validator.validateConfig()) {
             logger.severe("Error on config.yml format.")
             logger.severe("Plugin will be disabled.")
-            Bukkit.getPluginManager().disablePlugin(plugin)
+            disablePluginSafely()
             return
         }
 
@@ -65,5 +64,15 @@ class Configuration(private val dataFolder: File, private val logger: Logger, pr
             lore.append(parseText(line as String))
         }
         return lore.build()
+    }
+
+    private fun disablePluginSafely() {
+        try {
+            if (plugin.isEnabled) {
+                plugin.server.pluginManager.disablePlugin(plugin)
+            }
+        } catch (e: Exception) {
+            logger.severe("Failed to disable plugin: ${e.message}")
+        }
     }
 }

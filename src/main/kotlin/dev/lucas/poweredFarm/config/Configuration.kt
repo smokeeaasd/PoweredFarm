@@ -35,7 +35,7 @@ class Configuration(private val dataFolder: File, private val logger: Logger, pr
 
         resourceManager.createMessagesDirectory()
         resourceManager.createMessageFiles()
-        val databaseInitializer = DatabaseInitializer(this, logger)
+        val databaseInitializer = DatabaseInitializer(this)
         databaseInitializer.initializeDatabase()
         saveLocale()
         val messageLoader = MessageLoader(this)

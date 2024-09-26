@@ -1,31 +1,25 @@
 package dev.lucas.poweredFarm.config
 
-import dev.lucas.poweredFarm.database.dto.CropDTO
 import dev.lucas.poweredFarm.database.DatabaseFactory
-import dev.lucas.poweredFarm.database.dto.messages.CropMessageDTO
 import dev.lucas.poweredFarm.database.models.Crop
 import net.kyori.adventure.text.Component
-import org.bukkit.Bukkit
 import org.bukkit.configuration.file.YamlConfiguration
 import java.io.File
 import java.io.FileOutputStream
 import java.util.logging.Logger
-import kotlin.reflect.typeOf
 
 class Configuration(private val dataFolder: File, private val logger: Logger) {
 
     private val configFile = File(dataFolder, "config.yml")
 
     companion object {
-        var crops = mutableListOf<CropDTO>()
+        var crops = mutableListOf<Crop>()
         var locale: String = "en_US"
-        var cropMessages = mutableListOf<CropMessageDTO>()
+        var cropMessages = mutableListOf<CropMessage>()
     }
 
     init {
-        if (!dataFolder.exists()) {
-            dataFolder.mkdirs()
-        }
+        dataFolder.mkdirs() // Garantir que a pasta seja criada, se não existir
     }
 
     fun initialize() {
@@ -34,35 +28,12 @@ class Configuration(private val dataFolder: File, private val logger: Logger) {
         createMessageFiles()
         initializeDatabase()
         saveLocale()
-        saveMessages()
-    }
-
-    private fun saveMessages() {
-        val cropMessagesSection = getMessageConfig(locale).getList("crops") ?: return
-
-        cropMessages = cropMessagesSection.mapNotNull { cropMessageData ->
-            if (cropMessageData is Map<*, *>) {
-                logger.info(cropMessageData["title"]!!::class.toString())
-                logger.info(cropMessageData["type"]!!::class.toString())
-                logger.info(cropMessageData["lore"]!!::class.toString())
-                logger.info(cropMessageData["full"]!!::class.toString())
-                val type = cropMessageData["type"] as? String ?: return@mapNotNull null
-                val title = cropMessageData["title"] as? String ?: return@mapNotNull null
-                val loreLines = cropMessageData["lore"] as? List<*> ?: return@mapNotNull null
-                val full = cropMessageData["full"] as? String ?: return@mapNotNull null
-
-                val lore = Component.text()
-                for (line in loreLines) {
-                    lore.append(Component.text(line as String))
-                }
-                CropMessageDTO(type, Component.text(title), lore.build(), Component.text(full))
-            } else null
-        }.toMutableList()
+        loadMessages()
     }
 
     private fun initializeDatabase() {
         DatabaseFactory.init()
-        saveCrops()
+        loadCrops()
         saveLocale()
     }
 
@@ -70,47 +41,56 @@ class Configuration(private val dataFolder: File, private val logger: Logger) {
         locale = getConfig().getString("locale") ?: "en_US"
     }
 
-    private fun saveCrops() {
+    private fun loadCrops() {
         Crop.clear()
-        val cropsSection = getConfig().getList("crops") ?: return
+        crops = getConfig().getList("crops")?.mapNotNull { cropData ->
+            (cropData as? Map<*, *>)?.let {
+                val type = it["type"] as? String ?: return@mapNotNull null
+                val limit = it["limit"] as? Int ?: 0
+                Crop.create(type, limit)
+            }
+        }?.toMutableList() ?: mutableListOf()
+    }
 
-        crops = cropsSection.mapNotNull { cropData ->
-            if (cropData is Map<*, *>) {
-                val type = cropData["type"] as? String ?: return@mapNotNull null
-                val label = cropData["label"] as? String ?: return@mapNotNull null
-                val limit = cropData["limit"] as? Int ?: 0
+    private fun loadMessages() {
+        cropMessages = getMessageConfig(locale).getList("crops")?.mapNotNull { cropMessageData ->
+            (cropMessageData as? Map<*, *>)?.let {
+                val type = it["type"] as? String ?: return@mapNotNull null
+                val title = it["title"] as? String ?: return@mapNotNull null
+                val loreLines = it["lore"] as? List<*> ?: return@mapNotNull null
+                val fullText = it["full"] as? String ?: return@mapNotNull null
 
-                Crop.create(type)
-                CropDTO(type, label, limit)
-            } else null
-        }.toMutableList()
+                CropMessage(
+                    type,
+                    parseText(title),
+                    buildLore(loreLines),
+                    parseText(fullText)
+                )
+            }
+        }?.toMutableList() ?: mutableListOf()
     }
 
     private fun createConfigFile() {
-        if (configFile.exists()) {
+        if (!configFile.exists()) {
+            copyResource("config.yml", configFile)
+            logger.info("Created config.yml")
+        } else {
             logger.info("File 'config.yml' already exists: ${configFile.path}")
-            return
         }
-
-        copyResource("config.yml", configFile)
-        logger.info("Created config.yml")
     }
 
     private fun createMessagesDirectory() {
         val messagesDir = File(dataFolder, "messages")
-        if (messagesDir.exists()) {
+        if (!messagesDir.exists()) {
+            messagesDir.mkdirs()
+            logger.info("Created 'messages' folder: ${messagesDir.path}")
+        } else {
             logger.info("Folder 'messages' already exists: ${messagesDir.path}")
-            return
         }
-
-        messagesDir.mkdirs()
-        logger.info("Created 'messages' folder: ${messagesDir.path}")
     }
 
     private fun createMessageFiles() {
-        val messageFiles = listOf("pt_BR.yml", "en_US.yml")
-
-        messageFiles.forEach { fileName ->
+        listOf("pt_BR.yml", "en_US.yml").forEach { fileName ->
             val file = File(dataFolder, "messages/$fileName")
             if (!file.exists()) {
                 copyResource("messages/$fileName", file)
@@ -134,8 +114,19 @@ class Configuration(private val dataFolder: File, private val logger: Logger) {
     }
 
     private fun getMessageConfig(locale: String): YamlConfiguration {
-        val messagesDir = File(dataFolder, "messages")
-        val localeFile = File(messagesDir, locale.plus(".yml"))
+        val localeFile = File(dataFolder, "messages/${locale}.yml")
         return YamlConfiguration.loadConfiguration(localeFile)
+    }
+
+    private fun parseText(text: String): Component {
+        return Component.text(text.replace("&", "§"))
+    }
+
+    private fun buildLore(loreLines: List<*>): Component {
+        val lore = Component.text()
+        loreLines.forEach { line ->
+            lore.append(parseText(line as String))
+        }
+        return lore.build()
     }
 }

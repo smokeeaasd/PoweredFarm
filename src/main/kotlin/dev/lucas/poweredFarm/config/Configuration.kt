@@ -21,7 +21,7 @@ class Configuration(private val dataFolder: File, private val logger: Logger, pr
         dataFolder.mkdirs()
     }
 
-    fun initialize() {
+    fun initialize(): Boolean {
         val resourceManager = ResourceManager(dataFolder, logger)
         resourceManager.createConfigFile(configFile)
         val validator = ConfigurationValidator(configFile, logger)
@@ -29,7 +29,7 @@ class Configuration(private val dataFolder: File, private val logger: Logger, pr
             logger.severe("Error on config.yml format.")
             logger.severe("Plugin will be disabled.")
             disablePluginSafely()
-            return
+            return false
         }
 
         resourceManager.createMessagesDirectory()
@@ -39,6 +39,8 @@ class Configuration(private val dataFolder: File, private val logger: Logger, pr
         saveLocale()
         val messageLoader = MessageLoader(this)
         messageLoader.loadMessages()
+
+        return true
     }
 
     fun saveLocale() {
@@ -69,8 +71,12 @@ class Configuration(private val dataFolder: File, private val logger: Logger, pr
     private fun disablePluginSafely() {
         try {
             if (plugin.isEnabled) {
+                logger.info("Disabling plugin: ${plugin.name}")
                 plugin.server.pluginManager.disablePlugin(plugin)
+                logger.info("Plugin disabled successfully.")
             }
+        } catch (e: IllegalStateException) {
+            logger.severe("Failed to disable plugin due to IllegalStateException: ${e.message}")
         } catch (e: Exception) {
             logger.severe("Failed to disable plugin: ${e.message}")
         }

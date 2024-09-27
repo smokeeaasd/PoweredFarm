@@ -1,12 +1,9 @@
 package dev.lucas.poweredFarm.database.models
 
 import dev.lucas.poweredFarm.database.tables.Bags
+import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
-import org.jetbrains.exposed.sql.deleteWhere
-import org.jetbrains.exposed.sql.insertAndGetId
-import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
-import org.jetbrains.exposed.sql.update
 
 data class Bag(val id: Int?, val user: User, val crop: Crop, val amount: Int) : IModel<Bag> {
     companion object {
@@ -42,6 +39,10 @@ data class Bag(val id: Int?, val user: User, val crop: Crop, val amount: Int) : 
 
                 Bag(insertedId.value, user, crop, amount)
             }
+        }
+
+        fun clear() = transaction {
+            Bags.deleteAll()
         }
     }
 

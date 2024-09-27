@@ -2,55 +2,47 @@ crops:
   - type: "nether_wart"
     title: "&cFungo do Nether"
     lore:
-      lines:
-        - "&7Quantidade: (%poweredfarm_netherwart_amount%/%poweredfarm_netherwart_limit%)"
-      full: "&cSeu armazém está cheio"
+      - "&7Quantidade: (%poweredfarm_netherwart_amount%/%poweredfarm_netherwart_limit%)"
+    full: "&cSeu armazém está cheio"
 
   - type: "beetroot"
     title: "&dBeterraba"
     lore:
-      lines:
-        - "&7Quantidade: (%poweredfarm_beetroot_amount%/%poweredfarm_beetroot_limit%)"
-      full: "&cSeu armazém está cheio"
+      - "&7Quantidade: (%poweredfarm_beetroot_amount%/%poweredfarm_beetroot_limit%)"
+    full: "&cSeu armazém está cheio"
 
   - type: "carrot"
     title: "&6Cenoura"
     lore:
-      lines:
-        - "&7Quantidade: (%poweredfarm_carrot_amount%/%poweredfarm_carrot_limit%)"
-      full: "&cSeu armazém está cheio"
+      - "&7Quantidade: (%poweredfarm_carrot_amount%/%poweredfarm_carrot_limit%)"
+    full: "&cSeu armazém está cheio"
 
   - type: "melon_stem"
     title: "&dMelancia"
     lore:
-      lines:
-        - "&7Quantidade: (%poweredfarm_melon_amount%/%poweredfarm_melon_limit%)"
-      full: "&cSeu armazém está cheio"
+      - "&7Quantidade: (%poweredfarm_melon_amount%/%poweredfarm_melon_limit%)"
+    full: "&cSeu armazém está cheio"
 
   - type: "potato"
     title: "&eBatata"
     lore:
-      lines:
-        - "&7Quantidade: (%poweredfarm_potato_amount%/%poweredfarm_potato_limit%)"
-      full: "&cSeu armazém está cheio"
+      - "&7Quantidade: (%poweredfarm_potato_amount%/%poweredfarm_potato_limit%)"
+    full: "&cSeu armazém está cheio"
 
   - type: "pumpkin_stem"
     title: "&6Abóbora"
     lore:
-      lines:
-        - "&7Quantidade: (%poweredfarm_pumpkin_amount%/%poweredfarm_pumpkin_limit%)"
-      full: "&cSeu armazém está cheio"
+      - "&7Quantidade: (%poweredfarm_pumpkin_amount%/%poweredfarm_pumpkin_limit%)"
+    full: "&cSeu armazém está cheio"
 
   - type: "sweet_berry_bush"
     title: "&cBaga Doce"
     lore:
-      lines:
-        - "&7Quantidade: (%poweredfarm_sweetberry_amount%/%poweredfarm_sweetberry_limit%)"
-      full: "&cSeu armazém está cheio"
+      - "&7Quantidade: (%poweredfarm_sweetberry_amount%/%poweredfarm_sweetberry_limit%)"
+    full: "&cSeu armazém está cheio"
 
   - type: "wheat"
     title: "&eTrigo"
     lore:
-      lines:
-        - "&7Quantidade: (%poweredfarm_wheat_amount%/%poweredfarm_wheat_limit%)"
-      full: "&cSeu armazém está cheio"
+      - "&7Quantidade: (%poweredfarm_wheat_amount%/%poweredfarm_wheat_limit%)"
+    full: "&cSeu armazém está cheio"

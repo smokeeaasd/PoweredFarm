@@ -5,7 +5,7 @@ import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.transactions.transaction
 
-data class Crop(val id: Int?, val type: String, val limit: Int) : IModel<Crop> {
+data class Crop(val id: Int?, val type: String, var limit: Int) : IModel<Crop> {
     companion object {
         private fun ResultRow.toCrop(): Crop = Crop(
             id = this[Crops.id].value,

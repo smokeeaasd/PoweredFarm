@@ -1,7 +1,5 @@
 package dev.lucas.poweredFarm.config
 
-import dev.lucas.poweredFarm.Main
-import org.bukkit.Bukkit
 import org.bukkit.configuration.file.YamlConfiguration
 import java.io.File
 import java.util.logging.Logger
@@ -47,7 +45,7 @@ class ConfigurationValidator(private val configFile: File, private val logger: L
             }
 
             if (limit == null || limit <= 0) {
-                logger.warning("Crop com limit inválido para o tipo $type. O limite deve ser um número positivo.")
+                logger.warning("Crop com limit inválido. O limite deve ser um número positivo.")
                 return false
             }
         }

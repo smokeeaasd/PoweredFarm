@@ -25,6 +25,7 @@ class Configuration(private val dataFolder: File, private val logger: Logger, pr
         val resourceManager = ResourceManager(dataFolder, logger)
         resourceManager.createConfigFile(configFile)
         val validator = ConfigurationValidator(configFile, logger)
+
         if (!validator.validateConfig()) {
             logger.severe("Error on config.yml format.")
             logger.severe("Plugin will be disabled.")
@@ -37,6 +38,15 @@ class Configuration(private val dataFolder: File, private val logger: Logger, pr
         val databaseInitializer = DatabaseInitializer(this)
         databaseInitializer.initializeDatabase()
         saveLocale()
+        val localeValidator = LocaleValidator(File(dataFolder, "messages/${locale}.yml"), logger)
+
+        if (!localeValidator.validateLocale()) {
+            logger.severe("Error on locale file format.")
+            logger.severe("Plugin will be disabled.")
+            disablePluginSafely()
+            return false
+        }
+
         val messageLoader = MessageLoader(this)
         messageLoader.loadMessages()
 

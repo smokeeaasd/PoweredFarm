@@ -2,7 +2,7 @@ crops:
   - type: "nether_wart"
     title: "&cFungo do Nether"
     lore:
-      - "&7Quantidade: (%poweredfarm_netherwart_amount%/%poweredfarm_netherwart_limit%)"
+      - "&7Quantidade: (%poweredfarm_nether_wart_amount%/%poweredfarm_nether_wart_limit%)"
     full: "&cSeu armazém está cheio"
 
   - type: "beetroot"
@@ -33,12 +33,6 @@ crops:
     title: "&6Abóbora"
     lore:
       - "&7Quantidade: (%poweredfarm_pumpkin_amount%/%poweredfarm_pumpkin_limit%)"
-    full: "&cSeu armazém está cheio"
-
-  - type: "sweet_berry_bush"
-    title: "&cBaga Doce"
-    lore:
-      - "&7Quantidade: (%poweredfarm_sweetberry_amount%/%poweredfarm_sweetberry_limit%)"
     full: "&cSeu armazém está cheio"
 
   - type: "wheat"

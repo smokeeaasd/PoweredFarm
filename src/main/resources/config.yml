@@ -8,17 +8,8 @@ crops:
   - type: "carrot"
     limit: 90
 
-  - type: "melon_stem"
-    limit: 100
-
   - type: "potato"
     limit: 90
-
-  - type: "pumpkin_stem"
-    limit: 80
-
-  - type: "sweet_berry_bush"
-    limit: 150
 
   - type: "wheat"
     limit: 125

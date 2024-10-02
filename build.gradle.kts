@@ -17,11 +17,14 @@ repositories {
     maven("https://repo.extendedclip.com/content/repositories/placeholderapi/") {
         name = "PlaceholderAPI"
     }
+    maven("https://jitpack.io") {
+        name = "jitpack"
+    }
 }
 
 val exposedVersion: String by project
 dependencies {
-    compileOnly("io.papermc.paper:paper-api:1.20.1-R0.1-SNAPSHOT")
+    compileOnly("io.papermc.paper:paper-api:1.20.6-R0.1-SNAPSHOT")
     compileOnly("me.clip:placeholderapi:2.11.6")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
@@ -35,6 +38,9 @@ dependencies {
     implementation("org.jetbrains.exposed:exposed-json:$exposedVersion")
     implementation("org.jetbrains.exposed:exposed-money:$exposedVersion")
     implementation("org.jetbrains.exposed:exposed-spring-boot-starter:$exposedVersion")
+
+    implementation("com.github.smokeeaasd:InventoryUtils:v1.0.5")
+
 }
 
 val targetJavaVersion = 22

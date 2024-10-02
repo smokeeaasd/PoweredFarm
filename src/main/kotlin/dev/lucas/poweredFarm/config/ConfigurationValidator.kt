@@ -8,8 +8,7 @@ class ConfigurationValidator(private val configFile: File, private val logger: L
 
     fun validateConfig(): Boolean {
         val validCropTypes = setOf(
-            "nether_wart", "beetroot", "carrot", "melon_stem",
-            "potato", "pumpkin_stem", "sweet_berry_bush", "wheat"
+            "nether_wart", "beetroot", "carrot", "potato", "wheat"
         )
         val validLocales = setOf("pt_BR", "en_US")
 

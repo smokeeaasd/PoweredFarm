@@ -1,42 +1,27 @@
 crops:
   - type: "nether_wart"
-    title: "&cNether Wart"
+    title: "§cNether Wart"
     lore:
-      - "&7Amount: (%poweredfarm_nether_wart_amount%/%poweredfarm_nether_wart_limit%)"
-    full: "&cYour storage is full"
+      - "§7Amount: (%poweredfarm_nether_wart_amount%/%poweredfarm_nether_wart_limit%)"
 
   - type: "beetroot"
-    title: "&dBeetroot"
+    title: "§dBeetroot"
     lore:
-      - "&7Amount: (%poweredfarm_beetroot_amount%/%poweredfarm_beetroot_limit%)"
-    full: "&cYour storage is full"
-
+      - "§7Amount: (%poweredfarm_beetroot_amount%/%poweredfarm_beetroot_limit%)"
   - type: "carrot"
-    title: "&6Carrot"
+    title: "§6Carrot"
     lore:
-      - "&7Amount: (%poweredfarm_carrot_amount%/%poweredfarm_carrot_limit%)"
-    full: "&cYour storage is full"
-
-  - type: "melon_stem"
-    title: "&dMelon"
-    lore:
-      - "&7Amount: (%poweredfarm_melon_stem_amount%/%poweredfarm_melon_stem_limit%)"
-    full: "&cYour storage is full"
+      - "§7Amount: (%poweredfarm_carrot_amount%/%poweredfarm_carrot_limit%)"
 
   - type: "potato"
-    title: "&ePotato"
+    title: "§ePotato"
     lore:
-      - "&7Amount: (%poweredfarm_potato_amount%/%poweredfarm_potato_limit%)"
-    full: "&cYour storage is full"
-
-  - type: "pumpkin_stem"
-    title: "&6Pumpkin"
-    lore:
-      - "&7Amount: (%poweredfarm_pumpkin_stem_amount%/%poweredfarm_pumpkin_stem_limit%)"
-    full: "&cYour storage is full"
+      - "§7Amount: (%poweredfarm_potato_amount%/%poweredfarm_potato_limit%)"
 
   - type: "wheat"
-    title: "&eWheat"
+    title: "§eWheat"
     lore:
-      - "&7Amount: (%poweredfarm_wheat_amount%/%poweredfarm_wheat_limit%)"
-    full: "&cYour storage is full"
+      - "§7Amount: (%poweredfarm_wheat_amount%/%poweredfarm_wheat_limit%)"
+
+storage:
+  title: "%player_name%'s Storage"

@@ -30,7 +30,7 @@ class PoweredFarmExpansion : PlaceholderExpansion() {
         return when {
             identifier.endsWith("_limit") -> getLimit(bags, identifier)
             identifier.endsWith("_amount") -> getAmount(bags, identifier)
-            else -> ""
+            else -> identifier
         }
     }
 

@@ -4,7 +4,7 @@ class MessageLoader(private val config: Configuration) {
 
     fun loadMessages() {
         Configuration.cropMessages = config.getMessageConfig(Configuration.locale).getList("crops")?.mapNotNull { cropMessageData ->
-            (cropMessageData as? Map<*, *>)?.let {
+            (cropMessageData as? Map<*, *>)?.let { it ->
                 val type = it["type"] as? String ?: return@mapNotNull null
                 val title = it["title"] as? String ?: return@mapNotNull null
                 val loreLines = it["lore"] as? List<*> ?: return@mapNotNull null
@@ -13,8 +13,8 @@ class MessageLoader(private val config: Configuration) {
                 CropMessage(
                     type,
                     config.parseText(title),
-                    config.buildLore(loreLines),
-                    config.parseText(fullText)
+                    loreLines.map { line -> line as String },
+                    fullText
                 )
             }
         }?.toMutableList() ?: mutableListOf()

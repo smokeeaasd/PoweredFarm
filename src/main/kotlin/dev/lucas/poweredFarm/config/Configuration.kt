@@ -3,7 +3,6 @@ package dev.lucas.poweredFarm.config
 import dev.lucas.poweredFarm.Main
 import dev.lucas.poweredFarm.database.DatabaseInitializer
 import dev.lucas.poweredFarm.database.models.Crop
-import net.kyori.adventure.text.Component
 import org.bukkit.configuration.file.YamlConfiguration
 import java.io.File
 import java.util.logging.Logger
@@ -66,16 +65,8 @@ class Configuration(private val dataFolder: File, private val logger: Logger, pr
         return YamlConfiguration.loadConfiguration(localeFile)
     }
 
-    fun parseText(text: String): Component {
-        return Component.text(text.replace("&", "§"))
-    }
-
-    fun buildLore(loreLines: List<*>): Component {
-        val lore = Component.text()
-        loreLines.forEach { line ->
-            lore.append(parseText(line as String))
-        }
-        return lore.build()
+    fun parseText(text: String): String {
+        return text.replace("&", "§")
     }
 
     private fun disablePluginSafely() {

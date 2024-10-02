@@ -13,17 +13,22 @@ class Main : JavaPlugin() {
 
         if (success) {
             server.pluginManager.registerEvents(PlayerListener(this), this)
-
-            if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
-                PoweredFarmExpansion().register()
-                logger.info("registered PlaceholderAPI expansion.")
-            } else {
-                logger.warning("PlaceholderAPI not found, placeholders will not work.")
-            }
+            registerExpansion()
         }
     }
 
     override fun onDisable() {
 
+    }
+
+    private fun registerExpansion() {
+        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
+            val expansion = PoweredFarmExpansion()
+            expansion.persist()
+            expansion.register()
+            logger.info("registered PlaceholderAPI expansion.")
+            return
+        }
+        logger.warning("PlaceholderAPI not found, placeholders will not work.")
     }
 }

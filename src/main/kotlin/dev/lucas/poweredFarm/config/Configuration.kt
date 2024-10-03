@@ -14,6 +14,7 @@ class Configuration(private val dataFolder: File, private val logger: Logger, pr
         var crops = mutableListOf<Crop>()
         var locale: String = "en_US"
         var cropMessages = mutableListOf<CropMessage>()
+        lateinit var storageMessage: StorageMessage
     }
 
     init {

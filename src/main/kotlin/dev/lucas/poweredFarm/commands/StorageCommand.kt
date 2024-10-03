@@ -29,7 +29,7 @@ object StorageCommand : BasicCommand {
     }
 
     private fun createInventoryUI(player: Player): InventoryUI {
-        val title = PlaceholderAPI.setPlaceholders(player, "%player_name%'s Storage")
+        val title = PlaceholderAPI.setPlaceholders(player, Configuration.storageMessage.title)
         return InventoryUI(INVENTORY_SIZE, Component.text(title))
     }
 
@@ -62,9 +62,7 @@ object StorageCommand : BasicCommand {
 
     private fun createLore(loreLines: List<String>, player: Player): List<Component> {
         return loreLines.map { line ->
-            LegacyComponentSerializer
-                .legacySection()
-                .deserialize(PlaceholderAPI.setPlaceholders(player, line))
+            Component.text(PlaceholderAPI.setPlaceholders(player, line))
                 .decorations(setOf(TextDecoration.ITALIC), false)
         }
     }

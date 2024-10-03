@@ -16,7 +16,7 @@ class LocaleValidator(private val localeFile: File, private val logger: Logger) 
             return false
         }
 
-        val requiredKeys = listOf("crops")
+        val requiredKeys = listOf("crops", "storage")
         for (key in requiredKeys) {
             if (!config.contains(key)) {
                 logger.warning("Locale file is missing required key: $key")
@@ -35,7 +35,6 @@ class LocaleValidator(private val localeFile: File, private val logger: Logger) 
             val type = crop["type"] as? String
             val title = crop["title"] as? String
             val lore = crop["lore"] as? List<*>
-            val full = crop["full"] as? String
 
             if (type.isNullOrEmpty()) {
                 logger.warning("Crop with invalid type: $type.")
@@ -51,11 +50,18 @@ class LocaleValidator(private val localeFile: File, private val logger: Logger) 
                 logger.warning("Crop with invalid lore for type $type.")
                 return false
             }
+        }
 
-            if (full.isNullOrEmpty()) {
-                logger.warning("Crop with invalid full message for type $type.")
-                return false
-            }
+        val storage = config.getConfigurationSection("storage")
+        if (storage == null) {
+            logger.warning("The storage section is missing in the locale file.")
+            return false
+        }
+
+        val storageTitle = storage.getString("title")
+        if (storageTitle.isNullOrEmpty()) {
+            logger.warning("Storage title is missing or empty.")
+            return false
         }
 
         logger.info("Locale file validated successfully!")

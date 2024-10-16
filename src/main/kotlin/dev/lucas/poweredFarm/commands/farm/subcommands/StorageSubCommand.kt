@@ -39,7 +39,8 @@ object StorageSubCommand {
         for (crop in Configuration.cropMessages) {
             val item = createCropItem(crop.type)
             val lore = createLore(crop.lore, player)
-            val title = LegacyComponentSerializer.legacySection().deserialize(PlaceholderAPI.setPlaceholders(player, crop.title))
+            val title = LegacyComponentSerializer.legacySection()
+                .deserialize(PlaceholderAPI.setPlaceholders(player, crop.title))
 
             inventoryUI.addComponent(
                 InventoryUIButton(
@@ -58,7 +59,8 @@ object StorageSubCommand {
         }
 
         val playerSkull = PlayerUtil.getPlayerSkull(player.name)
-        val iconTitle = LegacyComponentSerializer.legacySection().deserialize(PlaceholderAPI.setPlaceholders(player, Configuration.storageMessage.infoIcon.title))
+        val iconTitle = LegacyComponentSerializer.legacySection()
+            .deserialize(PlaceholderAPI.setPlaceholders(player, Configuration.storageMessage.infoIcon.title))
         val iconLore = createLore(Configuration.storageMessage.infoIcon.lore, player)
 
         inventoryUI.addComponent(
@@ -72,17 +74,22 @@ object StorageSubCommand {
 
         val storeButton = InventoryUIButton(
             ItemStack(Material.CHEST),
-            LegacyComponentSerializer.legacySection().deserialize(PlaceholderAPI.setPlaceholders(player, Configuration.storageMessage.storeIcon.title)),
+            LegacyComponentSerializer.legacySection()
+                .deserialize(PlaceholderAPI.setPlaceholders(player, Configuration.storageMessage.storeIcon.title)),
             createLore(Configuration.storageMessage.storeIcon.lore, player).toMutableList(),
             onLeftClick = {
-                player.playSound(player.location, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 1f)
-                player.closeInventory()
-                player.performCommand("farm store all")
+                player.apply {
+                    playSound(player.location, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 1f)
+                    performCommand("farm store all")
+                    performCommand("farm storage")
+                }
             },
             onRightClick = {
-                player.playSound(player.location, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 1f)
-                player.closeInventory()
-                player.sendMessage("§c§l[!] §cThis feature is not available yet.")
+                player.apply {
+                    playSound(player.location, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 1f)
+                    performCommand("farm collect")
+                    performCommand("farm storage")
+                }
             }
         )
 

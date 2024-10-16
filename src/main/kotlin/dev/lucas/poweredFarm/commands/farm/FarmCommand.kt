@@ -1,5 +1,6 @@
 package dev.lucas.poweredFarm.commands.farm
 
+import dev.lucas.poweredFarm.commands.farm.subcommands.CollectSubCommand
 import dev.lucas.poweredFarm.commands.farm.subcommands.StoreSubCommand
 import dev.lucas.poweredFarm.config.Configuration
 import io.papermc.paper.command.brigadier.BasicCommand

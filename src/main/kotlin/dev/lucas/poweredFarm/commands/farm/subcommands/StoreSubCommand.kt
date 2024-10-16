@@ -1,10 +1,12 @@
 package dev.lucas.poweredFarm.commands.farm.subcommands
 
 import dev.lucas.poweredFarm.config.Configuration
+import dev.lucas.poweredFarm.database.models.Bag
 import dev.lucas.poweredFarm.database.models.User
 import io.papermc.paper.command.brigadier.CommandSourceStack
 import org.bukkit.Material
 import org.bukkit.entity.Player
+import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.PlayerInventory
 
 object StoreSubCommand {
@@ -20,9 +22,7 @@ object StoreSubCommand {
         }
 
         val player = stack.sender as Player
-        val user = User.findByUUID(player.uniqueId.toString())
-
-        if (user == null) {
+        val user = User.findByUUID(player.uniqueId.toString()) ?: run {
             stack.sender.sendMessage("§cUser not found.")
             return
         }
@@ -39,8 +39,8 @@ object StoreSubCommand {
         val crops = Configuration.crops
 
         crops.forEach { crop ->
-            val items = inventory.filter { it != null && it.type == Material.getMaterial(crop.type.uppercase()) }
-            val totalAmount = items.sumOf { it.amount }
+            val totalAmount = inventory.filter { it != null && it.type == Material.getMaterial(crop.type.uppercase()) }
+                .sumOf { it.amount }
             val bag = user.bags().find { it.crop.type == crop.type }
 
             if (bag != null && totalAmount > 0) {
@@ -56,19 +56,15 @@ object StoreSubCommand {
     }
 
     private fun storeSingleCrop(player: Player, user: User, cropType: String) {
-        val crop = Configuration.crops.find { it.type == cropType }
-
-        if (crop == null) {
+        val crop = Configuration.crops.find { it.type == cropType } ?: run {
             player.sendMessage("§cInvalid crop type. Available types: ${Configuration.crops.joinToString { it.type }}")
             return
         }
 
         val inventory = player.inventory
-        val items = inventory.filter { it != null && it.type == Material.getMaterial(crop.type.uppercase()) }
-        val totalAmount = items.sumOf { it.amount }
-        val bag = user.bags().find { it.crop.type == crop.type }
-
-        if (bag == null) {
+        val totalAmount = inventory.filter { it != null && it.type == Material.getMaterial(crop.type.uppercase()) }
+            .sumOf { it.amount }
+        val bag = user.bags().find { it.crop.type == crop.type } ?: run {
             player.sendMessage("§cYou don't have any crop to store.")
             return
         }

@@ -1,25 +1,26 @@
-package dev.lucas.poweredFarm.commands
+package dev.lucas.poweredFarm.commands.farm
 
 import dev.lucas.InventoryUI
+import dev.lucas.InventoryUIButton
 import dev.lucas.InventoryUIComponent
 import dev.lucas.poweredFarm.config.Configuration
 import dev.lucas.poweredFarm.util.item.ItemUtil.Companion.removeAllAttributes
 import dev.lucas.poweredFarm.util.player.PlayerUtil
-import io.papermc.paper.command.brigadier.BasicCommand
 import io.papermc.paper.command.brigadier.CommandSourceStack
 import me.clip.placeholderapi.PlaceholderAPI
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.TextDecoration
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer
 import org.bukkit.Material
+import org.bukkit.Sound
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 
-object StorageCommand : BasicCommand {
+object StorageSubCommand {
     private const val INVENTORY_SIZE = 27
     private const val START_INDEX = 11
 
-    override fun execute(stack: CommandSourceStack, args: Array<out String>) {
+    fun execute(stack: CommandSourceStack, args: Array<out String>) {
         val sender = stack.sender as? Player ?: return
 
         val inventoryUI = createInventoryUI(sender)
@@ -40,19 +41,52 @@ object StorageCommand : BasicCommand {
             val lore = createLore(crop.lore, player)
             val title = LegacyComponentSerializer.legacySection().deserialize(PlaceholderAPI.setPlaceholders(player, crop.title))
 
-            inventoryUI.addComponent(InventoryUIComponent(item, title, lore.toMutableList()), index)
+            inventoryUI.addComponent(
+                InventoryUIButton(
+                    item,
+                    title,
+                    lore.toMutableList(),
+                    onLeftClick = {
+                        player.playSound(player.location, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 1f)
+                        player.closeInventory()
+                        player.performCommand("farm store ${crop.type}")
+                    },
+                ),
+                index
+            )
             index++
         }
 
         val playerSkull = PlayerUtil.getPlayerSkull(player.name)
+        val iconTitle = LegacyComponentSerializer.legacySection().deserialize(PlaceholderAPI.setPlaceholders(player, Configuration.storageMessage.infoIcon.title))
+        val iconLore = createLore(Configuration.storageMessage.infoIcon.lore, player)
+
         inventoryUI.addComponent(
             InventoryUIComponent(
                 playerSkull,
-                Component.text("Your Head"),
-                mutableListOf(Component.text("This is your head!"))
+                iconTitle,
+                iconLore.toMutableList()
             ),
             0
         )
+
+        val storeButton = InventoryUIButton(
+            ItemStack(Material.CHEST),
+            LegacyComponentSerializer.legacySection().deserialize(PlaceholderAPI.setPlaceholders(player, Configuration.storageMessage.storeIcon.title)),
+            createLore(Configuration.storageMessage.storeIcon.lore, player).toMutableList(),
+            onLeftClick = {
+                player.playSound(player.location, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 1f)
+                player.closeInventory()
+                player.performCommand("farm store all")
+            },
+            onRightClick = {
+                player.playSound(player.location, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 1f)
+                player.closeInventory()
+                player.sendMessage("§c§l[!] §cThis feature is not available yet.")
+            }
+        )
+
+        inventoryUI.addComponent(storeButton, 26)
     }
 
     private fun createCropItem(type: String): ItemStack {

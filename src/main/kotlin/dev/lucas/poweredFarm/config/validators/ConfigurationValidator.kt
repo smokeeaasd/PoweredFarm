@@ -1,4 +1,4 @@
-package dev.lucas.poweredFarm.config
+package dev.lucas.poweredFarm.config.validators
 
 import org.bukkit.configuration.file.YamlConfiguration
 import java.io.File
@@ -23,13 +23,13 @@ class ConfigurationValidator(private val configFile: File, private val logger: L
 
         val locale = config.getString("locale")
         if (locale == null || !validLocales.contains(locale)) {
-            logger.warning("Locale inválido no arquivo de configuração. Deve ser um dos seguintes: $validLocales")
+            logger.warning("Invalid locale in configuration file. Must be one of: $validLocales")
             return false
         }
 
         val crops = config.getList("crops")
         if (crops == null || crops.isEmpty()) {
-            logger.warning("A lista de crops está vazia ou ausente no arquivo de configuração.")
+            logger.warning("The crops list is empty or missing in the configuration file.")
             return false
         }
 
@@ -39,17 +39,17 @@ class ConfigurationValidator(private val configFile: File, private val logger: L
             val limit = crop["limit"] as? Int
 
             if (type == null || !validCropTypes.contains(type)) {
-                logger.warning("Crop com tipo inválido: $type. Deve ser um dos seguintes: $validCropTypes")
+                logger.warning("Invalid crop type: $type. Must be one of: $validCropTypes")
                 return false
             }
 
             if (limit == null || limit <= 0) {
-                logger.warning("Crop com limit inválido. O limite deve ser um número positivo.")
+                logger.warning("Invalid crop limit. The limit must be a positive number.")
                 return false
             }
         }
 
-        logger.info("Arquivo de configuração validado com sucesso!")
+        logger.info("Configuration file validated successfully!")
         return true
     }
 }

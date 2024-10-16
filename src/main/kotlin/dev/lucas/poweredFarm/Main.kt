@@ -1,5 +1,6 @@
 package dev.lucas.poweredFarm
 
+import dev.lucas.InventoryUIListener
 import dev.lucas.poweredFarm.config.Configuration
 import dev.lucas.poweredFarm.listeners.PlayerListener
 import dev.lucas.poweredFarm.placeholders.PoweredFarmExpansion
@@ -13,6 +14,7 @@ class Main : JavaPlugin() {
 
         if (success) {
             server.pluginManager.registerEvents(PlayerListener(this), this)
+            server.pluginManager.registerEvents(InventoryUIListener(), this)
             registerExpansion()
         }
     }

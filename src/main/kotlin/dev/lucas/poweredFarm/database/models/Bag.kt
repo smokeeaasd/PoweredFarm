@@ -5,7 +5,7 @@ import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.transactions.transaction
 
-data class Bag(val id: Int?, val user: User, val crop: Crop, val amount: Int) : IModel<Bag> {
+data class Bag(val id: Int?, val user: User, val crop: Crop, var amount: Int) : IModel<Bag> {
     companion object {
         fun find(id: Int) {
             return transaction {
@@ -47,8 +47,10 @@ data class Bag(val id: Int?, val user: User, val crop: Crop, val amount: Int) : 
     }
 
     override fun save() {
-        Bags.update({ Bags.id eq id }) {
-            it[amount] = this@Bag.amount
+        return transaction {
+            Bags.update({ Bags.id eq this@Bag.id}) {
+                it[amount] = this@Bag.amount
+            }
         }
     }
 

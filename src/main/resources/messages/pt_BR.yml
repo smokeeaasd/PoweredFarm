@@ -3,31 +3,34 @@ crops:
     title: "§cFungo do Nether"
     lore:
       - "§7Quantidade: (%poweredfarm_nether_wart_amount%/%poweredfarm_nether_wart_limit%)"
-    full: "§cSeu armazém está cheio"
 
   - type: "beetroot"
     title: "§dBeterraba"
     lore:
       - "§7Quantidade: (%poweredfarm_beetroot_amount%/%poweredfarm_beetroot_limit%)"
-    full: "§cSeu armazém está cheio"
 
   - type: "carrot"
     title: "§6Cenoura"
     lore:
       - "§7Quantidade: (%poweredfarm_carrot_amount%/%poweredfarm_carrot_limit%)"
-    full: "§cSeu armazém está cheio"
 
   - type: "potato"
     title: "§eBatata"
     lore:
       - "§7Quantidade: (%poweredfarm_potato_amount%/%poweredfarm_potato_limit%)"
-    full: "§cSeu armazém está cheio"
 
   - type: "wheat"
     title: "§eTrigo"
     lore:
       - "§7Quantidade: (%poweredfarm_wheat_amount%/%poweredfarm_wheat_limit%)"
-    full: "§cSeu armazém está cheio"
 
 storage:
   title: "Armazém de %player_name%"
+  icon:
+    title: "§aSeu armazém"
+    lore:
+      - "Aqui, você pode armazenar suas plantações para plantá-las automaticamente em sua fazenda."
+  collect:
+    title: "§aColetar"
+    lore:
+        - "§7Clique para coletar todas as suas sementes armazenadas."

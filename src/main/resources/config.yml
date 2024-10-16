@@ -1,17 +1,13 @@
+locale: "en_US"
+
 crops:
   - type: "nether_wart"
     limit: 50
-
   - type: "beetroot"
     limit: 100
-
   - type: "carrot"
     limit: 90
-
   - type: "potato"
     limit: 90
-
   - type: "wheat"
     limit: 125
-
-locale: "en_US"

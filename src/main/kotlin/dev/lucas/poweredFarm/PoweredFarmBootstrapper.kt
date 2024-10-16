@@ -1,7 +1,7 @@
 package dev.lucas.poweredFarm
 
-import dev.lucas.poweredFarm.commands.ReloadCommand
-import dev.lucas.poweredFarm.commands.StorageCommand
+import dev.lucas.poweredFarm.commands.PoweredFarmCommand
+import dev.lucas.poweredFarm.commands.farm.FarmCommand
 import io.papermc.paper.command.brigadier.Commands
 import io.papermc.paper.plugin.bootstrap.BootstrapContext
 import io.papermc.paper.plugin.bootstrap.PluginBootstrap
@@ -15,8 +15,8 @@ class PoweredFarmBootstrapper : PluginBootstrap {
             LifecycleEvents.COMMANDS
         ) { event: ReloadableRegistrarEvent<Commands?> ->
             val commands = event.registrar()
-            commands.register("storage", StorageCommand)
-            commands.register("poweredfarms", ReloadCommand)
+            commands.register("farm", FarmCommand)
+            commands.register("poweredfarm", PoweredFarmCommand)
         }
     }
 }

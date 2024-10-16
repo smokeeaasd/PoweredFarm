@@ -1,6 +1,8 @@
 package dev.lucas.poweredFarm.config
 
 import dev.lucas.poweredFarm.Main
+import dev.lucas.poweredFarm.config.validators.ConfigurationValidator
+import dev.lucas.poweredFarm.config.validators.LocaleValidator
 import dev.lucas.poweredFarm.database.DatabaseInitializer
 import dev.lucas.poweredFarm.database.models.Crop
 import org.bukkit.configuration.file.YamlConfiguration
@@ -13,8 +15,8 @@ class Configuration(private val dataFolder: File, private val logger: Logger, pr
     companion object {
         var crops = mutableListOf<Crop>()
         var locale: String = "en_US"
-        var cropMessages = mutableListOf<CropMessage>()
         lateinit var storageMessage: StorageMessage
+        lateinit var cropMessages: MutableList<CropMessage>
     }
 
     init {
@@ -22,35 +24,46 @@ class Configuration(private val dataFolder: File, private val logger: Logger, pr
     }
 
     fun initialize(): Boolean {
+        if (!validateConfig()) return false
+        if (!validateLocale()) return false
+
+        loadMessages()
+        val databaseInitializer = DatabaseInitializer(this)
+        databaseInitializer.initializeDatabase()
+        return true
+    }
+
+    private fun validateConfig(): Boolean {
         val resourceManager = ResourceManager(dataFolder, logger)
         resourceManager.createConfigFile(configFile)
         val validator = ConfigurationValidator(configFile, logger)
 
         if (!validator.validateConfig()) {
             logger.severe("Error on config.yml format.")
-            logger.severe("Plugin will be disabled.")
             disablePluginSafely()
             return false
         }
+        return true
+    }
 
+    private fun validateLocale(): Boolean {
+        val resourceManager = ResourceManager(dataFolder, logger)
         resourceManager.createMessagesDirectory()
         resourceManager.createMessageFiles()
-        val databaseInitializer = DatabaseInitializer(this)
-        databaseInitializer.initializeDatabase()
         saveLocale()
         val localeValidator = LocaleValidator(File(dataFolder, "messages/${locale}.yml"), logger)
 
         if (!localeValidator.validateLocale()) {
             logger.severe("Error on locale file format.")
-            logger.severe("Plugin will be disabled.")
             disablePluginSafely()
             return false
         }
+        return true
+    }
 
+    private fun loadMessages() {
         val messageLoader = MessageLoader(this)
         messageLoader.loadMessages()
-
-        return true
     }
 
     fun saveLocale() {

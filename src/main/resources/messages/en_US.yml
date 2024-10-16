@@ -25,3 +25,11 @@ crops:
 
 storage:
   title: "%player_name%'s Storage"
+  icon:
+    title: "§aYour storage"
+    lore:
+      - "Here, you can store your crops to automatically plant them in your farm."
+  collect:
+    title: "§aCollect"
+    lore:
+        - "§7Click to collect all your stored crops."

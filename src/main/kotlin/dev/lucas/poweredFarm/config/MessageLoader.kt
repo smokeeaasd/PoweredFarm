@@ -12,7 +12,7 @@ class MessageLoader(private val config: Configuration) {
                 CropMessage(
                     type,
                     config.parseText(title),
-                    loreLines.map { line -> line as String }
+                    loreLines.map { line -> line as String },
                 )
             }
         }?.toMutableList() ?: mutableListOf()
@@ -20,7 +20,24 @@ class MessageLoader(private val config: Configuration) {
         Configuration.storageMessage =
             config.getMessageConfig(Configuration.locale).getConfigurationSection("storage")?.let { storageSection ->
                 val title = storageSection.getString("title") ?: return@let null
-                StorageMessage(config.parseText(title))
-            } ?: StorageMessage("%player_name%'s Storage")
+                val iconSection = storageSection.getConfigurationSection("icon") ?: return@let null
+                val iconTitle = iconSection.getString("title") ?: return@let null
+                val iconLore = iconSection.getStringList("lore")
+                val collectSection = storageSection.getConfigurationSection("collect") ?: return@let null
+                val collectTitle = collectSection.getString("title") ?: return@let null
+                val collectLore = collectSection.getStringList("lore")
+
+                StorageMessage(
+                    config.parseText(title),
+                    StorageIcon(
+                        config.parseText(iconTitle),
+                        iconLore.map { config.parseText(it) }
+                    ),
+                    StorageCollectIcon(
+                        collectTitle,
+                        collectLore.map { config.parseText(it) }
+                    )
+                )
+            }!!
     }
 }

@@ -1,4 +1,4 @@
-package dev.lucas.poweredFarm.config
+package dev.lucas.poweredFarm.config.validators
 
 import org.bukkit.configuration.file.YamlConfiguration
 import java.io.File
@@ -61,6 +61,42 @@ class LocaleValidator(private val localeFile: File, private val logger: Logger) 
         val storageTitle = storage.getString("title")
         if (storageTitle.isNullOrEmpty()) {
             logger.warning("Storage title is missing or empty.")
+            return false
+        }
+
+        val iconSection = storage.getConfigurationSection("icon")
+        if (iconSection == null) {
+            logger.warning("The icon section is missing in the storage configuration.")
+            return false
+        }
+
+        val iconTitle = iconSection.getString("title")
+        if (iconTitle.isNullOrEmpty()) {
+            logger.warning("The icon title is missing or empty in the storage configuration.")
+            return false
+        }
+
+        val iconLore = iconSection.getStringList("lore")
+        if (iconLore.isEmpty()) {
+            logger.warning("The icon lore is missing or empty in the storage configuration.")
+            return false
+        }
+
+        val collectSection = storage.getConfigurationSection("collect")
+        if (collectSection == null) {
+            logger.warning("The collect section is missing in the storage configuration.")
+            return false
+        }
+
+        val collectTitle = collectSection.getString("title")
+        if (collectTitle.isNullOrEmpty()) {
+            logger.warning("The collect title is missing or empty in the storage configuration.")
+            return false
+        }
+
+        val collectLore = collectSection.getStringList("lore")
+        if (collectLore.isEmpty()) {
+            logger.warning("The collect lore is missing or empty in the storage configuration.")
             return false
         }
 

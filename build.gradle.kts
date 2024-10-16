@@ -39,8 +39,7 @@ dependencies {
     implementation("org.jetbrains.exposed:exposed-money:$exposedVersion")
     implementation("org.jetbrains.exposed:exposed-spring-boot-starter:$exposedVersion")
 
-    implementation("com.github.smokeeaasd:InventoryUtils:v1.0.5")
-
+    implementation("com.github.smokeeaasd:InventoryUtils:1.0.8")
 }
 
 val targetJavaVersion = 22

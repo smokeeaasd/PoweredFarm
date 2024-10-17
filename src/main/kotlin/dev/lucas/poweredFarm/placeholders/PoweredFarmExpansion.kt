@@ -36,11 +36,11 @@ class PoweredFarmExpansion : PlaceholderExpansion() {
 
     private fun getLimit(bags: List<Bag>, identifier: String): String? {
         val type = identifier.removeSuffix("_limit")
-        return bags.find { it.crop.type == type }?.crop?.limit?.toString()
+        return bags.find { it.crop.type.lowercase() == type }?.crop?.limit?.toString()
     }
 
     private fun getAmount(bags: List<Bag>, identifier: String): String? {
         val type = identifier.removeSuffix("_amount")
-        return bags.find { it.crop.type == type }?.amount?.toString()
+        return bags.find { it.crop.type.lowercase() == type }?.amount?.toString()
     }
 }

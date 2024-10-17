@@ -1,6 +1,7 @@
 package dev.lucas.poweredFarm.commands.farm
 
 import dev.lucas.poweredFarm.commands.farm.subcommands.CollectSubCommand
+import dev.lucas.poweredFarm.commands.farm.subcommands.StorageSubCommand
 import dev.lucas.poweredFarm.commands.farm.subcommands.StoreSubCommand
 import dev.lucas.poweredFarm.config.Configuration
 import io.papermc.paper.command.brigadier.BasicCommand
@@ -12,7 +13,7 @@ object FarmCommand : BasicCommand {
         return when {
             args == null || args.isEmpty() -> mutableListOf("storage", "collect", "store")
             args.size == 1 -> listOf("storage", "collect", "store").filter { it.startsWith(args[0]) }.toMutableList()
-            args.size == 2 && args[0] == "store" -> Configuration.crops.map { it.type }.filter { it.startsWith(args[1]) }.toMutableList()
+            args.size == 2 && args[0] == "store" -> mutableListOf("all", *Configuration.crops.map { it.type.lowercase() }.filter { it.startsWith(args[1]) }.toTypedArray())
             else -> mutableListOf()
         }
     }

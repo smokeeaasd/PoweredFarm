@@ -6,11 +6,13 @@ class MessageLoader(private val config: Configuration) {
         Configuration.cropMessages = config.getMessageConfig(Configuration.locale).getList("crops")?.mapNotNull { cropMessageData ->
             (cropMessageData as? Map<*, *>)?.let { it ->
                 val type = it["type"] as? String ?: return@mapNotNull null
+                val displayName = it["display-name"] as? String ?: return@mapNotNull null
                 val title = it["title"] as? String ?: return@mapNotNull null
                 val loreLines = it["lore"] as? List<*> ?: return@mapNotNull null
 
                 CropMessage(
                     type,
+                    displayName,
                     config.parseText(title),
                     loreLines.map { line -> line as String },
                 )

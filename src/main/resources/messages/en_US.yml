@@ -1,35 +1,62 @@
 crops:
   - type: "nether_wart"
-    title: "§cNether Wart"
+    display-name: "§cNether Wart"
+    title: "§cNether Wart §7(%poweredfarm_nether_wart_amount%/%poweredfarm_nether_wart_limit%)"
     lore:
-      - "§7Amount: (%poweredfarm_nether_wart_amount%/%poweredfarm_nether_wart_limit%)"
+      - ""
+      - "§a§lLEFT CLICK §7to store in your storage."
+      - "§a§lRIGHT CLICK §7to collect."
+      - ""
 
   - type: "beetroot"
-    title: "§dBeetroot"
+    display-name: "§dBeetroot"
+    title: "§dBeetroot §7(%poweredfarm_beetroot_amount%/%poweredfarm_beetroot_limit%)"
     lore:
-      - "§7Amount: (%poweredfarm_beetroot_amount%/%poweredfarm_beetroot_limit%)"
+      - ""
+      - "§a§lLEFT CLICK §7to store in your storage."
+      - "§a§lRIGHT CLICK §7to collect."
+      - ""
+
   - type: "carrot"
-    title: "§6Carrot"
+    display-name: "§6Carrot"
+    title: "§6Carrot §7(%poweredfarm_carrot_amount%/%poweredfarm_carrot_limit%)"
     lore:
-      - "§7Amount: (%poweredfarm_carrot_amount%/%poweredfarm_carrot_limit%)"
+      - ""
+      - "§a§lLEFT CLICK §7to store in your storage."
+      - "§a§lRIGHT CLICK §7to collect."
+      - ""
 
   - type: "potato"
-    title: "§ePotato"
+    display-name: "§ePotato"
+    title: "§ePotato §7(%poweredfarm_potato_amount%/%poweredfarm_potato_limit%)"
     lore:
-      - "§7Amount: (%poweredfarm_potato_amount%/%poweredfarm_potato_limit%)"
+      - ""
+      - "§a§lLEFT CLICK §7to store in your storage."
+      - "§a§lRIGHT CLICK §7to collect."
+      - ""
 
   - type: "wheat"
-    title: "§eWheat"
+    display-name: "§eWheat"
+    title: "§eWheat §7(%poweredfarm_wheat_amount%/%poweredfarm_wheat_limit%)"
     lore:
-      - "§7Amount: (%poweredfarm_wheat_amount%/%poweredfarm_wheat_limit%)"
+      - ""
+      - "§a§lLEFT CLICK §7to store in your storage."
+      - "§a§lRIGHT CLICK §7to collect."
+      - ""
 
 storage:
   title: "%player_name%'s Storage"
   icon:
     title: "§aYour storage"
     lore:
-      - "Here, you can store your crops to automatically plant them in your farm."
+      - ""
+      - "§7Here, you can store your crops"
+      - "§7to automatically plant them in your farm."
+      - ""
   collect:
-    title: "§aCollect"
+    title: "§aFast Collect and Store"
     lore:
-        - "§7Click to collect all your stored crops."
+      - ""
+      - "§a§lLEFT CLICK §7to collect all crops."
+      - "§a§lRIGHT CLICK §7to store all crops."
+      - ""

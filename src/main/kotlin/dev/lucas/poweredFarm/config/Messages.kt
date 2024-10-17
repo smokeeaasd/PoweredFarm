@@ -7,6 +7,7 @@ data class StorageIcon (
 
 data class CropMessage(
     val type: String,
+    val displayName: String,
     val title: String,
     val lore: List<String>
 )

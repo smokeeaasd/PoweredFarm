@@ -1,36 +1,62 @@
 crops:
   - type: "nether_wart"
-    title: "§cFungo do Nether"
+    display-name: "§cFungo do Nether"
+    title: "§cFungo do Nether §7(%poweredfarm_nether_wart_amount%/%poweredfarm_nether_wart_limit%)"
     lore:
-      - "§7Quantidade: (%poweredfarm_nether_wart_amount%/%poweredfarm_nether_wart_limit%)"
+      - ""
+      - "§a§lCLIQUE ESQUERDO §7para enviar ao armazém."
+      - "§a§lCLIQUE DIREITO §7para coletar."
+      - ""
 
   - type: "beetroot"
-    title: "§dBeterraba"
+    display-name: "§dBeterraba"
+    title: "§dBeterraba §7(%poweredfarm_beetroot_amount%/%poweredfarm_beetroot_limit%)"
     lore:
-      - "§7Quantidade: (%poweredfarm_beetroot_amount%/%poweredfarm_beetroot_limit%)"
+      - ""
+      - "§a§lCLIQUE ESQUERDO §7para enviar ao armazém."
+      - "§a§lCLIQUE DIREITO §7para coletar."
+      - ""
 
   - type: "carrot"
-    title: "§6Cenoura"
+    display-name: "§6Cenoura"
+    title: "§6Cenoura §7(%poweredfarm_carrot_amount%/%poweredfarm_carrot_limit%)"
     lore:
-      - "§7Quantidade: (%poweredfarm_carrot_amount%/%poweredfarm_carrot_limit%)"
+      - ""
+      - "§a§lCLIQUE ESQUERDO §7para enviar ao armazém."
+      - "§a§lCLIQUE DIREITO §7para coletar."
+      - ""
 
   - type: "potato"
-    title: "§eBatata"
+    display-name: "§eBatata"
+    title: "§eBatata §7(%poweredfarm_potato_amount%/%poweredfarm_potato_limit%)"
     lore:
-      - "§7Quantidade: (%poweredfarm_potato_amount%/%poweredfarm_potato_limit%)"
+      - ""
+      - "§a§lCLIQUE ESQUERDO §7para enviar ao armazém."
+      - "§a§lCLIQUE DIREITO §7para coletar."
+      - ""
 
   - type: "wheat"
-    title: "§eTrigo"
+    display-name: "§eTrigo"
+    title: "§eTrigo §7(%poweredfarm_wheat_amount%/%poweredfarm_wheat_limit%)"
     lore:
-      - "§7Quantidade: (%poweredfarm_wheat_amount%/%poweredfarm_wheat_limit%)"
+      - ""
+      - "§a§lCLIQUE ESQUERDO §7para enviar ao armazém."
+      - "§a§lCLIQUE DIREITO §7para coletar."
+      - ""
 
 storage:
   title: "Armazém de %player_name%"
   icon:
     title: "§aSeu armazém"
     lore:
-      - "Aqui, você pode armazenar suas plantações para plantá-las automaticamente em sua fazenda."
+      - ""
+      - "§7Aqui, você pode armazenar suas colheitas"
+      - "§7para plantá-las automaticamente em sua fazenda."
+      - ""
   collect:
-    title: "§aColetar"
+    title: "§aColeta Rápida e Armazenamento"
     lore:
-        - "§7Clique para coletar todas as suas sementes armazenadas."
+      - ""
+      - "§a§lCLIQUE ESQUERDO §7para coletar todas as colheitas."
+      - "§a§lCLIQUE DIREITO §7para armazenar todas as colheitas."
+      - ""

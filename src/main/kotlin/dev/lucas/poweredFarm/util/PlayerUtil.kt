@@ -1,4 +1,4 @@
-package dev.lucas.poweredFarm.util.player
+package dev.lucas.poweredFarm.util
 
 import org.bukkit.Bukkit
 import org.bukkit.Material

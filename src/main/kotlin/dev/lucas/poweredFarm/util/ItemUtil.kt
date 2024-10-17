@@ -1,4 +1,4 @@
-package dev.lucas.poweredFarm.util.item
+package dev.lucas.poweredFarm.util
 
 import com.google.common.collect.MultimapBuilder
 import org.bukkit.inventory.ItemFlag

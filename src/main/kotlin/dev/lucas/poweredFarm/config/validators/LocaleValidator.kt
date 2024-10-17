@@ -33,11 +33,17 @@ class LocaleValidator(private val localeFile: File, private val logger: Logger) 
         crops.forEach { cropData ->
             val crop = cropData as? Map<*, *> ?: return@forEach
             val type = crop["type"] as? String
+            val displayName = crop["display-name"] as? String
             val title = crop["title"] as? String
             val lore = crop["lore"] as? List<*>
 
             if (type.isNullOrEmpty()) {
                 logger.warning("Crop with invalid type: $type.")
+                return false
+            }
+
+            if (displayName.isNullOrEmpty()) {
+                logger.warning("Crop with invalid display name for type $type.")
                 return false
             }
 

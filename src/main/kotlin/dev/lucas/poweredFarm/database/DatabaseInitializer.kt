@@ -15,7 +15,7 @@ class DatabaseInitializer(private val config: Configuration) {
             (cropData as? Map<*, *>)?.let {
                 val type = it["type"] as? String ?: return@mapNotNull null
                 val limit = it["limit"] as? Int ?: 0
-                Crop(id = null, type = type, limit = limit)
+                Crop(id = null, type = type.uppercase(), limit = limit)
             }
         } ?: emptyList()
 

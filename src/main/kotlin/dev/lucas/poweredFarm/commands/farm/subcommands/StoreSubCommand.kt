@@ -3,14 +3,14 @@ package dev.lucas.poweredFarm.commands.farm.subcommands
 import dev.lucas.poweredFarm.config.Configuration
 import dev.lucas.poweredFarm.database.models.User
 import dev.lucas.poweredFarm.util.CropUtil
-import io.papermc.paper.command.brigadier.CommandSourceStack
 import org.bukkit.Material
+import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.bukkit.inventory.PlayerInventory
 
 object StoreSubCommand {
-    fun execute(stack: CommandSourceStack, args: Array<out String>) {
-        val player = stack.sender as? Player ?: return
+    fun execute(sender: CommandSender, args: Array<out String>) {
+        val player = sender as? Player ?: return
         val user = User.findByUUID(player.uniqueId.toString()) ?: run {
             player.sendMessage("§cUser not found.")
             return

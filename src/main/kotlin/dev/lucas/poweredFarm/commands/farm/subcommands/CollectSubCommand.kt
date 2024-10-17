@@ -3,14 +3,14 @@ package dev.lucas.poweredFarm.commands.farm.subcommands
 import dev.lucas.poweredFarm.config.Configuration
 import dev.lucas.poweredFarm.database.models.Bag
 import dev.lucas.poweredFarm.database.models.User
-import io.papermc.paper.command.brigadier.CommandSourceStack
 import org.bukkit.Material
+import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 
 object CollectSubCommand {
-    fun execute(stack: CommandSourceStack, args: Array<out String>) {
-        val player = stack.sender as? Player ?: return
+    fun execute(sender: CommandSender, args: Array<out String>) {
+        val player = sender as? Player ?: return
         val user = User.findByUUID(player.uniqueId.toString()) ?: return
 
         val bags = user.bags().filter { it.amount > 0 }

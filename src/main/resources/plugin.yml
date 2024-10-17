@@ -1,0 +1,20 @@
+name: PoweredFarm
+version: '1.0-SNAPSHOT'
+main: dev.lucas.poweredFarm.Main
+api-version: '1.20'
+
+depend:
+  - PlaceholderAPI
+
+loadbefore:
+  - PlaceholderAPI
+
+commands:
+  poweredfarm:
+    description: "Get plugin information"
+    usage: "/poweredfarm"
+    permission: "poweredfarm.poweredfarm"
+  farm:
+    description: "Farm"
+    usage: "/farm <action> <args>"
+    permission: "poweredfarm.farm"

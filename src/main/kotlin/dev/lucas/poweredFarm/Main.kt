@@ -1,6 +1,9 @@
 package dev.lucas.poweredFarm
 
 import dev.lucas.InventoryUIListener
+import dev.lucas.poweredFarm.commands.PoweredFarmCommand
+import dev.lucas.poweredFarm.commands.farm.FarmCommand
+import dev.lucas.poweredFarm.commands.farm.FarmCommandTabCompleter
 import dev.lucas.poweredFarm.config.Configuration
 import dev.lucas.poweredFarm.listeners.PlayerListener
 import dev.lucas.poweredFarm.placeholders.PoweredFarmExpansion
@@ -13,8 +16,16 @@ class Main : JavaPlugin() {
         val success = configuration.initialize()
 
         if (success) {
-            server.pluginManager.registerEvents(PlayerListener(this), this)
-            server.pluginManager.registerEvents(InventoryUIListener(), this)
+            server.getPluginCommand("poweredfarm")?.setExecutor(PoweredFarmCommand)
+            server.getPluginCommand("farm")?.apply {
+                setExecutor(FarmCommand)
+                tabCompleter = FarmCommandTabCompleter
+            }
+
+            server.pluginManager.apply {
+                registerEvents(PlayerListener(this@Main), this@Main)
+                registerEvents(InventoryUIListener(), this@Main)
+            }
             registerExpansion()
         }
     }

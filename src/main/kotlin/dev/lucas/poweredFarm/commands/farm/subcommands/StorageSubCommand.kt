@@ -13,6 +13,7 @@ import net.kyori.adventure.text.format.TextDecoration
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer
 import org.bukkit.Material
 import org.bukkit.Sound
+import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 
@@ -20,8 +21,8 @@ object StorageSubCommand {
     private const val INVENTORY_SIZE = 27
     private const val START_INDEX = 11
 
-    fun execute(stack: CommandSourceStack, args: Array<out String>) {
-        val player = stack.sender as? Player ?: return
+    fun execute(sender: CommandSender, args: Array<out String>) {
+        val player = sender as? Player ?: return
 
         val inventoryUI = createInventoryUI(player)
         populateInventoryUI(inventoryUI, player)

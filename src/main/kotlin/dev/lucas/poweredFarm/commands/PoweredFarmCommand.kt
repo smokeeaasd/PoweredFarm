@@ -2,24 +2,24 @@ package dev.lucas.poweredFarm.commands
 
 import dev.lucas.poweredFarm.Main
 import dev.lucas.poweredFarm.config.Configuration
-import io.papermc.paper.command.brigadier.BasicCommand
-import io.papermc.paper.command.brigadier.CommandSourceStack
+import org.bukkit.command.Command
+import org.bukkit.command.CommandExecutor
+import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-object PoweredFarmCommand : BasicCommand {
-    override fun suggest(commandSourceStack: CommandSourceStack, args: Array<out String>?): MutableCollection<String> {
-        return mutableListOf("reload")
-    }
-
-    override fun execute(stack: CommandSourceStack, args: Array<out String>) {
-        val sender = stack.sender as? Player ?: return
+object PoweredFarmCommand : CommandExecutor {
+    override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
+        if (sender !is Player) {
+            sender.sendMessage("Only players can execute this command.")
+            return true
+        }
 
         if (args.isEmpty() || args[0] != "reload") {
             sender.sendMessage("Usage: /poweredfarm reload")
-            return
+            return true
         }
 
-        val plugin = sender.server.pluginManager.getPlugin("PoweredFarm") as? Main ?: return
+        val plugin = sender.server.pluginManager.getPlugin("PoweredFarm") as? Main ?: return true
         val config = Configuration(plugin.dataFolder, plugin.logger, plugin)
 
         if (config.initialize()) {
@@ -27,5 +27,7 @@ object PoweredFarmCommand : BasicCommand {
         } else {
             sender.sendMessage("Failed to reload configuration.")
         }
+
+        return true
     }
 }

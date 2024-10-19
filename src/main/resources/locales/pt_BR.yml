@@ -43,7 +43,6 @@ crops:
       - "§a§lCLIQUE ESQUERDO §7para enviar ao armazém."
       - "§a§lCLIQUE DIREITO §7para coletar."
       - ""
-
 storage:
   title: "Armazém de %player_name%"
   icon:
@@ -60,3 +59,23 @@ storage:
       - "§a§lCLIQUE ESQUERDO §7para coletar todas as colheitas."
       - "§a§lCLIQUE DIREITO §7para armazenar todas as colheitas."
       - ""
+messages:
+    config-reload-success: "§aConfiguração recarregada com sucesso."
+    config-reload-fail: "§cFalha ao recarregar a configuração."
+    only-player: "§cApenas jogadores podem usar este comando."
+    no-permission: "§cVocê não tem permissão para usar este comando."
+
+    farm-command-usage: "§cUso: /farm <storage|collect|store>"
+
+    farm-collect-command-usage: "§cUso: /farm collect <crop|all>"
+    farm-collect-no-crops: "§cVocê não tem nenhuma colheita para coletar."
+    farm-collect-inventory-full: "§cSeu inventário está cheio."
+    farm-collect-collected: "§aVocê coletou {amount} {crop}"
+
+    farm-store-command-usage: "§cUso: /farm store <crop|all>"
+
+    farm-store-no-crops: "§cVocê não tem nenhuma colheita para armazenar."
+    farm-store-invalid-crop: "§cTipo de colheita inválido. Colheitas disponíveis: {crops}"
+    farm-store-player-dont-have-crop: "§cVocê não tem nenhuma {crop} para armazenar."
+    farm-store-stored: "§aVocê armazenou {amount} {crop}"
+    farm-store-no-space-left: "§cSem espaço restante em seu armazém."

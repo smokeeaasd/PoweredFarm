@@ -16,20 +16,20 @@ class ResourceManager(private val dataFolder: File, private val logger: Logger) 
     }
 
     fun createMessagesDirectory() {
-        val messagesDir = File(dataFolder, "messages")
+        val messagesDir = File(dataFolder, "locales")
         if (!messagesDir.exists()) {
             messagesDir.mkdirs()
-            logger.info("Created 'messages' folder: ${messagesDir.path}")
+            logger.info("Created 'locales' folder: ${messagesDir.path}")
         } else {
-            logger.info("Folder 'messages' already exists: ${messagesDir.path}")
+            logger.info("Folder 'locales' already exists: ${messagesDir.path}")
         }
     }
 
     fun createMessageFiles() {
         listOf("pt_BR.yml", "en_US.yml").forEach { fileName ->
-            val file = File(dataFolder, "messages/$fileName")
+            val file = File(dataFolder, "locales/$fileName")
             if (!file.exists()) {
-                copyResource("messages/$fileName", file)
+                copyResource("locales/$fileName", file)
                 logger.info("Created '$fileName'.")
             } else {
                 logger.info("File '$fileName' already exists: ${file.path}")

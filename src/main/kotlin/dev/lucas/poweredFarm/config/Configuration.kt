@@ -15,8 +15,7 @@ class Configuration(private val dataFolder: File, private val logger: Logger, pr
     companion object {
         var crops = mutableListOf<Crop>()
         var locale: String = "en_US"
-        lateinit var storageMessage: StorageMessage
-        lateinit var cropMessages: MutableList<CropMessage>
+        lateinit var messages: Messages
     }
 
     init {
@@ -51,7 +50,7 @@ class Configuration(private val dataFolder: File, private val logger: Logger, pr
         resourceManager.createMessagesDirectory()
         resourceManager.createMessageFiles()
         saveLocale()
-        val localeValidator = LocaleValidator(File(dataFolder, "messages/${locale}.yml"), logger)
+        val localeValidator = LocaleValidator(File(dataFolder, "locales/${locale}.yml"), logger)
 
         if (!localeValidator.validateLocale()) {
             logger.severe("Error on locale file format.")
@@ -75,7 +74,7 @@ class Configuration(private val dataFolder: File, private val logger: Logger, pr
     }
 
     fun getMessageConfig(locale: String): YamlConfiguration {
-        val localeFile = File(dataFolder, "messages/${locale}.yml")
+        val localeFile = File(dataFolder, "locales/${locale}.yml")
         return YamlConfiguration.loadConfiguration(localeFile)
     }
 

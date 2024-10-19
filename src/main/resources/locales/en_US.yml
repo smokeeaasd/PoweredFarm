@@ -60,3 +60,24 @@ storage:
       - "§a§lLEFT CLICK §7to collect all crops."
       - "§a§lRIGHT CLICK §7to store all crops."
       - ""
+
+messages:
+  config-reload-success: "§aConfig reloaded successfully."
+  config-reload-fail: "§cFailed to reload config."
+  only-player: "§cOnly players can use this command."
+  no-permission: "§cYou don't have permission to use this command."
+
+  farm-command-usage: "§cUsage: /farm <storage|collect|store>"
+
+  farm-collect-command-usage: "§cUsage: /farm collect <crop|all>"
+  farm-collect-no-crops: "§cYou don't have any crops to collect."
+  farm-collect-inventory-full: "§cYour inventory is full."
+  farm-collect-collected: "§aYou have collected {amount} {crop}"
+
+  farm-store-command-usage: "§cUsage: /farm store <crop|all>"
+
+  farm-store-no-crops: "§cYou don't have any crops to store."
+  farm-store-invalid-crop: "§cInvalid crop type. Available crops: {crops}"
+  farm-store-player-dont-have-crop: "§cYou don't have any {crop} to store."
+  farm-store-stored: "§aYou have stored {amount} {crop}"
+  farm-store-no-space-left: "§cNo space left in your storage."

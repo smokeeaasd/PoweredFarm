@@ -1,6 +1,7 @@
 package dev.lucas.poweredFarm.commands.farm.subcommands
 
 import dev.lucas.poweredFarm.config.Configuration
+import dev.lucas.poweredFarm.config.messages.CommandMessageKey
 import dev.lucas.poweredFarm.database.models.User
 import dev.lucas.poweredFarm.util.CropUtil
 import org.bukkit.Material
@@ -12,12 +13,13 @@ object StoreSubCommand {
     fun execute(sender: CommandSender, args: Array<out String>) {
         val player = sender as? Player ?: return
         val user = User.findByUUID(player.uniqueId.toString()) ?: run {
-            player.sendMessage("§cUser not found.")
+            player.sendMessage("§cUser not found in database")
             return
         }
 
         if (args.size < 2) {
-            player.sendMessage("§cUsage: /farm store <cropType|all>")
+            val message = Configuration.messages.commandMessages[CommandMessageKey.FARM_STORE_COMMAND_USAGE.key]!!
+            player.sendMessage(message)
             return
         }
 
@@ -43,7 +45,10 @@ object StoreSubCommand {
 
     private fun storeSingleCrop(player: Player, user: User, cropType: String) {
         val crop = Configuration.crops.find { it.type.equals(cropType, true) } ?: run {
-            player.sendMessage("§cInvalid crop type. Available types: ${Configuration.crops.joinToString { it.type }}§c.")
+            val message = Configuration.messages.commandMessages[CommandMessageKey.FARM_STORE_INVALID_CROP.key]!!
+                .replace("{crops}", Configuration.crops.joinToString(", "))
+
+            player.sendMessage(message)
             return
         }
 
@@ -53,7 +58,10 @@ object StoreSubCommand {
             return
         }
 
-        player.sendMessage("§cYou don't have any ${CropUtil.getCropDisplayName(crop.type)}.")
+        val message = Configuration.messages.commandMessages[CommandMessageKey.FARM_STORE_NO_CROPS.key]!!
+            .replace("{crop}", CropUtil.getCropDisplayName(crop.type))
+
+        player.sendMessage(message)
     }
 
     private fun getTotalAmount(inventory: PlayerInventory, cropType: String): Int {
@@ -69,11 +77,16 @@ object StoreSubCommand {
             removeItemsFromInventory(player.inventory, cropType, amountToStore)
             bag.amount += amountToStore
             bag.save()
-            player.sendMessage("§aStored ${CropUtil.getCropDisplayName(cropType)}. §7${amountToStore}x")
+            val message = Configuration.messages.commandMessages[CommandMessageKey.FARM_STORE_STORED.key]!!
+                .replace("{crop}", CropUtil.getCropDisplayName(cropType))
+                .replace("{amount}", amountToStore.toString())
+
+            player.sendMessage(message)
             return
         }
 
-        player.sendMessage("§cNo space left to store the crop.")
+        val message = Configuration.messages.commandMessages[CommandMessageKey.FARM_STORE_NO_SPACE_LEFT.key]!!
+        player.sendMessage(message)
     }
 
     private fun calculateAmountToStore(itemAmount: Int, cropLimit: Int, currentBagAmount: Int): Int {

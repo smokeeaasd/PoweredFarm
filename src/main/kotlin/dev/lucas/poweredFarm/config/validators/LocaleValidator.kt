@@ -106,6 +106,27 @@ class LocaleValidator(private val localeFile: File, private val logger: Logger) 
             return false
         }
 
+        val messageSection = config.getConfigurationSection("messages")
+        if (messageSection == null) {
+            logger.warning("The messages section is missing in the locale file.")
+            return false
+        }
+
+        val requiredMessages = listOf(
+            "config-reload-success", "config-reload-fail", "only-player", "no-permission",
+            "farm-command-usage", "farm-collect-command-usage", "farm-collect-no-crops",
+            "farm-collect-inventory-full", "farm-collect-collected", "farm-store-command-usage",
+            "farm-store-no-crops", "farm-store-invalid-crop", "farm-store-player-dont-have-crop",
+            "farm-store-stored", "farm-store-no-space-left"
+        )
+
+        for (message in requiredMessages) {
+            if (messageSection.getString(message).isNullOrEmpty()) {
+                logger.warning("Message $message is missing or empty in the locale file.")
+                return false
+            }
+        }
+
         logger.info("Locale file validated successfully!")
         return true
     }

@@ -6,6 +6,8 @@ import org.bukkit.command.CommandSender
 import org.bukkit.command.TabCompleter
 
 object FarmCommandTabCompleter : TabCompleter {
+    private val mainCommands = listOf("storage", "collect", "store")
+
     override fun onTabComplete(
         sender: CommandSender,
         command: Command,
@@ -13,10 +15,19 @@ object FarmCommandTabCompleter : TabCompleter {
         args: Array<out String>?
     ): MutableList<String> {
         return when {
-            args == null || args.isEmpty() -> mutableListOf("storage", "collect", "store")
-            args.size == 1 -> listOf("storage", "collect", "store").filter { it.startsWith(args[0]) }.toMutableList()
-            args.size == 2 && args[0] == "store" -> mutableListOf("all", *Configuration.crops.map { it.type.lowercase() }.filter { it.startsWith(args[1]) }.toTypedArray())
+            args.isNullOrEmpty() -> mainCommands.toMutableList()
+            args.size == 1 -> filterCommands(args[0])
+            args.size == 2 && args[0] in arrayOf("collect", "store") -> filterCropTypes(args[1])
             else -> mutableListOf()
         }
+    }
+
+    private fun filterCommands(input: String): MutableList<String> {
+        return mainCommands.filter { it.startsWith(input) }.toMutableList()
+    }
+
+    private fun filterCropTypes(input: String): MutableList<String> {
+        val cropTypes = listOf("all") + Configuration.crops.map { it.type.lowercase() }
+        return cropTypes.filter { it.startsWith(input) }.toMutableList()
     }
 }

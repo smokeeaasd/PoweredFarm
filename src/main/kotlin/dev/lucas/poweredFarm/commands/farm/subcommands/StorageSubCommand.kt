@@ -6,7 +6,6 @@ import dev.lucas.InventoryUIComponent
 import dev.lucas.poweredFarm.config.Configuration
 import dev.lucas.poweredFarm.util.ItemUtil.Companion.removeAllAttributes
 import dev.lucas.poweredFarm.util.PlayerUtil
-import io.papermc.paper.command.brigadier.CommandSourceStack
 import me.clip.placeholderapi.PlaceholderAPI
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.TextDecoration
@@ -31,13 +30,13 @@ object StorageSubCommand {
     }
 
     private fun createInventoryUI(player: Player): InventoryUI {
-        val title = PlaceholderAPI.setPlaceholders(player, Configuration.storageMessage.title)
+        val title = PlaceholderAPI.setPlaceholders(player, Configuration.messages.storage.title)
         return InventoryUI(INVENTORY_SIZE, Component.text(title))
     }
 
     private fun populateInventoryUI(inventoryUI: InventoryUI, player: Player) {
         var index = START_INDEX
-        Configuration.cropMessages.forEach { crop ->
+        Configuration.messages.crops.forEach { crop ->
             addCropButton(inventoryUI, player, crop.type, crop.title, crop.lore, index)
             index++
         }
@@ -70,8 +69,8 @@ object StorageSubCommand {
 
     private fun addPlayerInfoIcon(inventoryUI: InventoryUI, player: Player) {
         val playerSkull = PlayerUtil.getPlayerSkull(player.name)
-        val iconTitle = LegacyComponentSerializer.legacySection().deserialize(PlaceholderAPI.setPlaceholders(player, Configuration.storageMessage.infoIcon.title))
-        val iconLore = createLore(Configuration.storageMessage.infoIcon.lore, player)
+        val iconTitle = LegacyComponentSerializer.legacySection().deserialize(PlaceholderAPI.setPlaceholders(player, Configuration.messages.storage.infoIcon.title))
+        val iconLore = createLore(Configuration.messages.storage.infoIcon.lore, player)
 
         inventoryUI.addComponent(
             InventoryUIComponent(
@@ -86,8 +85,8 @@ object StorageSubCommand {
     private fun addStoreButton(inventoryUI: InventoryUI, player: Player) {
         val storeButton = InventoryUIButton(
             ItemStack(Material.CHEST),
-            LegacyComponentSerializer.legacySection().deserialize(PlaceholderAPI.setPlaceholders(player, Configuration.storageMessage.storeIcon.title)),
-            createLore(Configuration.storageMessage.storeIcon.lore, player).toMutableList(),
+            LegacyComponentSerializer.legacySection().deserialize(PlaceholderAPI.setPlaceholders(player, Configuration.messages.storage.storeIcon.title)),
+            createLore(Configuration.messages.storage.storeIcon.lore, player).toMutableList(),
             onLeftClick = {
                 player.apply {
                     playSound(location, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 1f)

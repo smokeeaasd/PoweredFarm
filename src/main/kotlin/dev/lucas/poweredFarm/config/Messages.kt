@@ -1,24 +1,10 @@
 package dev.lucas.poweredFarm.config
 
-data class StorageIcon (
-    val title: String,
-    val lore: List<String>
-)
+import dev.lucas.poweredFarm.config.messages.CropMessage
+import dev.lucas.poweredFarm.config.messages.StorageMessage
 
-data class CropMessage(
-    val type: String,
-    val displayName: String,
-    val title: String,
-    val lore: List<String>
-)
-
-data class StorageCollectIcon (
-    val title: String,
-    val lore: List<String>
-)
-
-data class StorageMessage(
-    val title: String,
-    val infoIcon: StorageIcon,
-    val storeIcon: StorageCollectIcon
+data class Messages(
+    val crops: MutableList<CropMessage>,
+    val storage: StorageMessage,
+    val commandMessages: Map<String, String>
 )

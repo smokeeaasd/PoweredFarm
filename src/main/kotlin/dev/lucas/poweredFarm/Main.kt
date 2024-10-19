@@ -44,4 +44,18 @@ class Main : JavaPlugin() {
         }
         logger.warning("PlaceholderAPI not found, placeholders will not work.")
     }
+
+    fun safeDisable() {
+        try {
+            if (isEnabled) {
+                logger.info("Disabling plugin: $name")
+                server.pluginManager.disablePlugin(this)
+                logger.info("Plugin disabled successfully.")
+            }
+        } catch (e: IllegalStateException) {
+            logger.severe("Failed to disable plugin due to IllegalStateException: ${e.message}")
+        } catch (e: Exception) {
+            logger.severe("Failed to disable plugin: ${e.message}")
+        }
+    }
 }

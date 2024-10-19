@@ -1,8 +1,7 @@
 package dev.lucas.poweredFarm.config
 
 import dev.lucas.poweredFarm.Main
-import dev.lucas.poweredFarm.config.validators.ConfigurationValidator
-import dev.lucas.poweredFarm.config.validators.LocaleValidator
+import dev.lucas.poweredFarm.config.validators.ConfigValidator
 import dev.lucas.poweredFarm.database.DatabaseInitializer
 import dev.lucas.poweredFarm.database.models.Crop
 import org.bukkit.configuration.file.YamlConfiguration
@@ -23,40 +22,19 @@ class Configuration(private val dataFolder: File, private val logger: Logger, pr
     }
 
     fun initialize(): Boolean {
-        if (!validateConfig()) return false
-        if (!validateLocale()) return false
+        val configValidator = ConfigValidator(dataFolder, logger, configFile)
+        if (!configValidator.validateConfig()) {
+            plugin.safeDisable()
+            return false
+        }
+        if (!configValidator.validateLocale()) {
+            plugin.safeDisable()
+            return false
+        }
 
         loadMessages()
         val databaseInitializer = DatabaseInitializer(this)
         databaseInitializer.initializeDatabase()
-        return true
-    }
-
-    private fun validateConfig(): Boolean {
-        val resourceManager = ResourceManager(dataFolder, logger)
-        resourceManager.createConfigFile(configFile)
-        val validator = ConfigurationValidator(configFile, logger)
-
-        if (!validator.validateConfig()) {
-            logger.severe("Error on config.yml format.")
-            disablePluginSafely()
-            return false
-        }
-        return true
-    }
-
-    private fun validateLocale(): Boolean {
-        val resourceManager = ResourceManager(dataFolder, logger)
-        resourceManager.createMessagesDirectory()
-        resourceManager.createMessageFiles()
-        saveLocale()
-        val localeValidator = LocaleValidator(File(dataFolder, "locales/${locale}.yml"), logger)
-
-        if (!localeValidator.validateLocale()) {
-            logger.severe("Error on locale file format.")
-            disablePluginSafely()
-            return false
-        }
         return true
     }
 
@@ -80,19 +58,5 @@ class Configuration(private val dataFolder: File, private val logger: Logger, pr
 
     fun parseText(text: String): String {
         return text.replace("&", "§")
-    }
-
-    private fun disablePluginSafely() {
-        try {
-            if (plugin.isEnabled) {
-                logger.info("Disabling plugin: ${plugin.name}")
-                plugin.server.pluginManager.disablePlugin(plugin)
-                logger.info("Plugin disabled successfully.")
-            }
-        } catch (e: IllegalStateException) {
-            logger.severe("Failed to disable plugin due to IllegalStateException: ${e.message}")
-        } catch (e: Exception) {
-            logger.severe("Failed to disable plugin: ${e.message}")
-        }
     }
 }

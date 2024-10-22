@@ -57,8 +57,8 @@ storage:
     title: "§aFast Collect and Store"
     lore:
       - ""
-      - "§a§lLEFT CLICK §7to collect all crops."
-      - "§a§lRIGHT CLICK §7to store all crops."
+      - "§a§lLEFT CLICK §7to store all crops."
+      - "§a§lRIGHT CLICK §7to collect all crops."
       - ""
 
 messages:

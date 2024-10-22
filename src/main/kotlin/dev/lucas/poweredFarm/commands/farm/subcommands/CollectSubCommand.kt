@@ -46,7 +46,8 @@ object CollectSubCommand {
         }
 
         amount = addItemToInventory(player, item, amount)
-        sendCollectedMessage(player, item, bag.amount - amount)
+        if (amount > 0)
+            sendCollectedMessage(player, item, bag.amount - amount)
 
         bag.amount = amount
         bag.save()

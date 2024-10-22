@@ -9,13 +9,11 @@ import dev.lucas.poweredFarm.database.models.User
 import dev.lucas.poweredFarm.util.CropUtil
 import org.bukkit.Particle
 import org.bukkit.block.data.Ageable
-import org.bukkit.block.data.BlockData
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.block.BlockBreakEvent
 import org.bukkit.event.player.PlayerJoinEvent
-import kotlin.reflect.typeOf
 
 class PlayerListener(private val plugin: Main) : Listener {
     @EventHandler

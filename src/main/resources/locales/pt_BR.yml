@@ -56,8 +56,8 @@ storage:
     title: "§aColeta Rápida e Armazenamento"
     lore:
       - ""
-      - "§a§lCLIQUE ESQUERDO §7para coletar todas as colheitas."
-      - "§a§lCLIQUE DIREITO §7para armazenar todas as colheitas."
+      - "§a§lCLIQUE ESQUERDO §7para armazenar todas as colheitas."
+      - "§a§lCLIQUE DIREITO §7para coletar todas as colheitas."
       - ""
 messages:
     config-reload-success: "§aConfiguração recarregada com sucesso."

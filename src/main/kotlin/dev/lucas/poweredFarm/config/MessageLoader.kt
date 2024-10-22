@@ -1,7 +1,6 @@
 package dev.lucas.poweredFarm.config
 
 import dev.lucas.poweredFarm.config.messages.*
-import org.bukkit.Bukkit
 
 class MessageLoader(private val config: Configuration) {
     private val commandMessageKeyMap = CommandMessageKey.entries.associateBy { it.key }

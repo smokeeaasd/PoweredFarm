@@ -7,7 +7,6 @@ class DatabaseInitializer(private val config: Configuration) {
     fun initializeDatabase() {
         DatabaseFactory.init()
         syncCrops()
-        config.saveLocale()
     }
 
     private fun syncCrops() {

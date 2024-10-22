@@ -4,6 +4,7 @@ import dev.lucas.poweredFarm.Main
 import dev.lucas.poweredFarm.config.validators.ConfigValidator
 import dev.lucas.poweredFarm.database.DatabaseInitializer
 import dev.lucas.poweredFarm.database.models.Crop
+import org.bukkit.Bukkit
 import org.bukkit.configuration.file.YamlConfiguration
 import java.io.File
 import java.util.logging.Logger
@@ -22,6 +23,7 @@ class Configuration(private val dataFolder: File, private val logger: Logger, pr
     }
 
     fun initialize(): Boolean {
+        saveLocale()
         val configValidator = ConfigValidator(dataFolder, logger, configFile)
         if (!configValidator.validateConfig()) {
             plugin.safeDisable()
@@ -43,8 +45,9 @@ class Configuration(private val dataFolder: File, private val logger: Logger, pr
         messageLoader.loadMessages()
     }
 
-    fun saveLocale() {
+    private fun saveLocale() {
         locale = getConfig().getString("locale") ?: "en_US"
+        Bukkit.getConsoleSender().sendMessage(locale)
     }
 
     fun getConfig(): YamlConfiguration {

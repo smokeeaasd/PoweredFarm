@@ -79,3 +79,4 @@ messages:
     farm-store-player-dont-have-crop: "§cVocê não tem nenhuma {crop} para armazenar."
     farm-store-stored: "§aVocê armazenou {amount} {crop}"
     farm-store-no-space-left: "§cSem espaço restante em seu armazém."
+    empty-bag: "§cSeu estoque de {crop} está vazio"

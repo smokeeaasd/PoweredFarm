@@ -15,5 +15,6 @@ enum class CommandMessageKey(val key: String) {
     FARM_STORE_INVALID_CROP("farm-store-invalid-crop"),
     FARM_STORE_PLAYER_DONT_HAVE_CROP("farm-store-player-dont-have-crop"),
     FARM_STORE_STORED("farm-store-stored"),
-    FARM_STORE_NO_SPACE_LEFT("farm-store-no-space-left")
+    FARM_STORE_NO_SPACE_LEFT("farm-store-no-space-left"),
+    EMPTY_BAG("empty-bag"),
 }

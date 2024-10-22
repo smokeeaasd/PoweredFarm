@@ -2,13 +2,20 @@ package dev.lucas.poweredFarm.listeners
 
 import dev.lucas.poweredFarm.Main
 import dev.lucas.poweredFarm.config.Configuration
+import dev.lucas.poweredFarm.config.messages.CommandMessageKey
 import dev.lucas.poweredFarm.database.models.Bag
 import dev.lucas.poweredFarm.database.models.Crop
 import dev.lucas.poweredFarm.database.models.User
+import dev.lucas.poweredFarm.util.CropUtil
+import org.bukkit.Particle
+import org.bukkit.block.data.Ageable
+import org.bukkit.block.data.BlockData
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
+import org.bukkit.event.block.BlockBreakEvent
 import org.bukkit.event.player.PlayerJoinEvent
+import kotlin.reflect.typeOf
 
 class PlayerListener(private val plugin: Main) : Listener {
     @EventHandler
@@ -58,6 +65,43 @@ class PlayerListener(private val plugin: Main) : Listener {
                 Bag.create(user, crop, 0)
                 plugin.logger.info("Added new bag for crop type: ${cropData.type} for user: ${user.uuid}")
             }
+        }
+    }
+
+    @EventHandler
+        fun onPlayerBreakBlock(event: BlockBreakEvent) {
+        val player = event.player
+        val block = event.block
+
+        if (player.isSneaking) return
+        if (block.blockData !is Ageable) return
+
+        val ageable = block.blockData as Ageable
+        val user = User.findByUUID(getPlayerUUID(player)) ?: return
+        val bag = user.bags().find { it.crop.type.equals(block.type.name, true) && it.amount > 0 } ?: return
+
+        if (ageable.age < ageable.maximumAge) return
+
+        event.isCancelled = true
+        val drops = block.getDrops(player.inventory.itemInMainHand, player)
+        ageable.age = 0
+        event.block.blockData = ageable
+
+        bag.amount--
+        bag.save()
+
+        for (drop in drops) {
+            block.world.dropItemNaturally(block.location.add(0.5, 0.5, 0.5), drop)
+        }
+
+        player.spawnParticle(Particle.HAPPY_VILLAGER, block.location.add(0.5, 0.5, 0.5), 10, 0.5, 0.5, 0.5)
+
+        if (bag.amount == 0) {
+            val cropName = CropUtil.getCropDisplayName(bag.crop.type)
+            val message = Configuration.messages.commandMessages[CommandMessageKey.EMPTY_BAG.key]!!
+                .replace("{crop}", cropName)
+
+            player.sendMessage(message)
         }
     }
 }

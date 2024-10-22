@@ -62,6 +62,14 @@ object StorageSubCommand {
                         performCommand("farm storage")
                     }
                 },
+
+                onRightClick = {
+                    it.apply {
+                        playSound(location, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 1f)
+                        performCommand("farm collect $cropType")
+                        performCommand("farm storage")
+                    }
+                }
             ),
             index
         )
@@ -97,7 +105,7 @@ object StorageSubCommand {
             onRightClick = {
                 player.apply {
                     playSound(location, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 1f)
-                    performCommand("farm collect")
+                    performCommand("farm collect all")
                     performCommand("farm storage")
                 }
             }
